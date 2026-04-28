@@ -1,15 +1,23 @@
 # Stark Intelligence Amplification MCP Server
 
-MCP server for the Stark Intelligence Amplification service, providing advanced AI capabilities including prompt optimization, RAG, chain-of-thought reasoning, and intelligent model routing.
+MCP server for the Stark Intelligence Amplification service, providing advanced AI capabilities including prompt optimization, RAG, chain-of-thought reasoning, intelligent model routing, and large-scale code intelligence.
 
 ## Features
 
+### Intelligence Amplification
 - **Prompt Optimization**: Enhance prompts for better results
 - **RAG Pipeline**: Retrieval-Augmented Generation for informed responses
 - **Chain-of-Thought**: Advanced reasoning with step-by-step logic
 - **Self-Reflection**: Quality improvement through iterative refinement
 - **Task Decomposition**: Break complex tasks into manageable subtasks
 - **Model Routing**: Intelligent routing to optimal models
+
+### Code Intelligence (Large-Scale)
+- **Repository Indexing**: Index 50GB+ repositories with incremental updates
+- **Semantic Code Search**: Natural language code search with hybrid ranking
+- **Dependency Analysis**: Analyze file dependencies and impact radius
+- **Symbol References**: Find all references to functions, classes, variables
+- **Complexity Analysis**: Calculate code complexity metrics and quality scores
 
 ## Installation
 
@@ -158,6 +166,140 @@ Route a query to the most appropriate model based on task characteristics.
 }
 ```
 
+### index_repository
+
+Index a large repository for semantic search and code intelligence.
+
+**Parameters:**
+- `repo_url` (required): Git repository URL (https or ssh)
+- `branch` (optional): Branch to index (default: "main")
+- `incremental` (optional): Use incremental indexing (default: true)
+- `options` (optional): Indexing options
+  - `languages`: Array of languages to index
+  - `exclude_patterns`: Glob patterns to exclude
+  - `max_file_size_mb`: Maximum file size in MB (default: 10)
+
+**Example:**
+```json
+{
+  "repo_url": "https://github.com/user/large-repo.git",
+  "branch": "main",
+  "incremental": true,
+  "options": {
+    "languages": ["python", "javascript", "typescript"],
+    "exclude_patterns": ["*.test.js", "node_modules/**", "*.min.js"],
+    "max_file_size_mb": 10
+  }
+}
+```
+
+### semantic_code_search
+
+Search code using natural language queries with hybrid ranking.
+
+**Parameters:**
+- `query` (required): Natural language search query
+- `repo_id` (required): Repository identifier from index_repository
+- `filters` (optional): Search filters
+  - `language`: Filter by programming language
+  - `path_pattern`: Filter by file path pattern (glob)
+  - `min_score`: Minimum relevance score 0-1 (default: 0.7)
+- `limit` (optional): Maximum results (default: 20, max: 100)
+- `include_context` (optional): Include surrounding code context (default: true)
+
+**Example:**
+```json
+{
+  "query": "authentication middleware that validates JWT tokens",
+  "repo_id": "uuid-from-indexing",
+  "filters": {
+    "language": "python",
+    "path_pattern": "src/**",
+    "min_score": 0.8
+  },
+  "limit": 10,
+  "include_context": true
+}
+```
+
+### analyze_dependencies
+
+Analyze file dependencies and calculate impact radius.
+
+**Parameters:**
+- `file_path` (required): File path to analyze (relative to repository root)
+- `repo_id` (required): Repository identifier
+- `depth` (optional): Dependency traversal depth (default: 3, max: 10)
+- `direction` (optional): "incoming", "outgoing", or "both" (default: "both")
+- `include_transitive` (optional): Include transitive dependencies (default: true)
+
+**Example:**
+```json
+{
+  "file_path": "src/auth/middleware.py",
+  "repo_id": "uuid-from-indexing",
+  "depth": 5,
+  "direction": "both",
+  "include_transitive": true
+}
+```
+
+### get_index_status
+
+Get the current status of a repository indexing job.
+
+**Parameters:**
+- `repo_id` (required): Repository identifier
+- `job_id` (optional): Optional job ID for specific indexing job
+
+**Example:**
+```json
+{
+  "repo_id": "uuid-from-indexing",
+  "job_id": "celery-task-id"
+}
+```
+
+### find_symbol_references
+
+Find all references to a code symbol across the repository.
+
+**Parameters:**
+- `symbol` (required): Symbol name to find references for
+- `repo_id` (required): Repository identifier
+- `symbol_type` (optional): "function", "class", "variable", "method", or "any" (default: "any")
+- `include_definitions` (optional): Include symbol definitions (default: true)
+
+**Example:**
+```json
+{
+  "symbol": "authenticate_user",
+  "repo_id": "uuid-from-indexing",
+  "symbol_type": "function",
+  "include_definitions": true
+}
+```
+
+### analyze_code_complexity
+
+Analyze code complexity metrics for files or directories.
+
+**Parameters:**
+- `path` (required): File or directory path to analyze
+- `repo_id` (required): Repository identifier
+- `metrics` (optional): Array of metrics - "cyclomatic", "cognitive", "maintainability", "halstead", "loc" (default: ["cyclomatic", "maintainability"])
+- `recursive` (optional): Analyze directory recursively (default: true)
+
+**Example:**
+```json
+{
+  "path": "src/",
+  "repo_id": "uuid-from-indexing",
+  "metrics": ["cyclomatic", "cognitive", "maintainability"],
+  "recursive": true
+}
+```
+
 ## Usage with Claude Desktop
 
 Add to your Claude Desktop configuration:
@@ -191,14 +333,23 @@ npm start
 
 ## API Endpoints
 
-The server communicates with these Intelligence Amplification API endpoints:
+The server communicates with these API endpoints:
 
+### Intelligence Amplification Service (Port 8004)
 - `POST /api/v1/intelligence/optimize-prompt` - Optimize prompt
 - `POST /api/v1/intelligence/rag-query` - RAG query
 - `POST /api/v1/intelligence/chain-of-thought` - Chain-of-thought reasoning
 - `POST /api/v1/intelligence/self-reflect` - Self-reflection
 - `POST /api/v1/intelligence/decompose-task` - Task decomposition
 - `POST /api/v1/intelligence/route-to-model` - Model routing
+
+### Code Intelligence Service (Port 8010)
+- `POST /api/v1/repositories/index` - Index repository
+- `POST /api/v1/search/semantic` - Semantic code search
+- `POST /api/v1/dependencies/analyze` - Analyze dependencies
+- `POST /api/v1/repositories/status` - Get index status
+- `POST /api/v1/symbols/references` - Find symbol references
+- `POST /api/v1/analysis/complexity` - Analyze code complexity
 
 ## License
 

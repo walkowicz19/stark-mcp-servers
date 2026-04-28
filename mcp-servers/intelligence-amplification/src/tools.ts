@@ -213,6 +213,215 @@ export const tools: Tool[] = [
       required: ["query"]
     }
   }
+  {
+    name: "index_repository",
+    description: "Index a large repository for semantic search and code intelligence. Supports 50GB+ repositories with incremental indexing for changed files only.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        repo_url: {
+          type: "string",
+          description: "Git repository URL (https or ssh)"
+        },
+        branch: {
+          type: "string",
+          description: "Branch to index",
+          default: "main"
+        },
+        incremental: {
+          type: "boolean",
+          description: "Use incremental indexing (only re-index changed files)",
+          default: true
+        },
+        options: {
+          type: "object",
+          description: "Indexing options",
+          properties: {
+            languages: {
+              type: "array",
+              items: { type: "string" },
+              description: "Languages to index (e.g., ['python', 'javascript'])"
+            },
+            exclude_patterns: {
+              type: "array",
+              items: { type: "string" },
+              description: "Glob patterns to exclude (e.g., ['*.test.js', 'node_modules/**'])"
+            },
+            max_file_size_mb: {
+              type: "number",
+              description: "Maximum file size to index in MB",
+              default: 10
+            }
+          }
+        }
+      },
+      required: ["repo_url"]
+    }
+  },
+  {
+    name: "semantic_code_search",
+    description: "Search code using natural language queries. Uses hybrid search combining vector similarity, keyword matching, and code graph relationships for accurate results.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description: "Natural language search query (e.g., 'authentication middleware that validates JWT tokens')"
+        },
+        repo_id: {
+          type: "string",
+          description: "Repository identifier from index_repository"
+        },
+        filters: {
+          type: "object",
+          description: "Search filters",
+          properties: {
+            language: {
+              type: "string",
+              description: "Filter by programming language"
+            },
+            path_pattern: {
+              type: "string",
+              description: "Filter by file path pattern (glob)"
+            },
+            min_score: {
+              type: "number",
+              description: "Minimum relevance score (0-1)",
+              default: 0.7
+            }
+          }
+        },
+        limit: {
+          type: "number",
+          description: "Maximum number of results",
+          default: 20,
+          minimum: 1,
+          maximum: 100
+        },
+        include_context: {
+          type: "boolean",
+          description: "Include surrounding code context",
+          default: true
+        }
+      },
+      required: ["query", "repo_id"]
+    }
+  },
+  {
+    name: "analyze_dependencies",
+    description: "Analyze file dependencies and calculate impact radius. Shows what files depend on a given file and what it depends on, useful for understanding change impact.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        file_path: {
+          type: "string",
+          description: "File path to analyze (relative to repository root)"
+        },
+        repo_id: {
+          type: "string",
+          description: "Repository identifier"
+        },
+        depth: {
+          type: "number",
+          description: "Dependency traversal depth",
+          default: 3,
+          minimum: 1,
+          maximum: 10
+        },
+        direction: {
+          type: "string",
+          enum: ["incoming", "outgoing", "both"],
+          description: "Dependency direction to analyze",
+          default: "both"
+        },
+        include_transitive: {
+          type: "boolean",
+          description: "Include transitive dependencies",
+          default: true
+        }
+      },
+      required: ["file_path", "repo_id"]
+    }
+  },
+  {
+    name: "get_index_status",
+    description: "Get the current status of a repository indexing job. Shows progress, estimated time remaining, and any errors.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        repo_id: {
+          type: "string",
+          description: "Repository identifier"
+        },
+        job_id: {
+          type: "string",
+          description: "Optional job ID for specific indexing job"
+        }
+      },
+      required: ["repo_id"]
+    }
+  },
+  {
+    name: "find_symbol_references",
+    description: "Find all references to a code symbol (function, class, variable) across the repository. Useful for refactoring and understanding code usage.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        symbol: {
+          type: "string",
+          description: "Symbol name to find references for"
+        },
+        repo_id: {
+          type: "string",
+          description: "Repository identifier"
+        },
+        symbol_type: {
+          type: "string",
+          enum: ["function", "class", "variable", "method", "any"],
+          description: "Type of symbol",
+          default: "any"
+        },
+        include_definitions: {
+          type: "boolean",
+          description: "Include symbol definitions in results",
+          default: true
+        }
+      },
+      required: ["symbol", "repo_id"]
+    }
+  },
+  {
+    name: "analyze_code_complexity",
+    description: "Analyze code complexity metrics for files or directories. Provides cyclomatic complexity, maintainability index, and code quality scores.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: {
+          type: "string",
+          description: "File or directory path to analyze"
+        },
+        repo_id: {
+          type: "string",
+          description: "Repository identifier"
+        },
+        metrics: {
+          type: "array",
+          items: {
+            type: "string",
+            enum: ["cyclomatic", "cognitive", "maintainability", "halstead", "loc"]
+          },
+          description: "Metrics to calculate",
+          default: ["cyclomatic", "maintainability"]
+        },
+        recursive: {
+          type: "boolean",
+          description: "Analyze directory recursively",
+          default: true
+        }
+      },
+      required: ["path", "repo_id"]
+    }
+  }
 ];
 
 // Made with Bob

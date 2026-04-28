@@ -1,0 +1,271 @@
+{
+  "id": "database-modernization",
+  "name": "Database Modernization",
+  "description": "Complete database schema analysis, optimization, and modernization planning with relationship detection and query pattern analysis",
+  "version": "1.0.0",
+  "metadata": {
+    "category": "database",
+    "tags": ["schema", "database", "optimization", "migration", "erd", "relationships"],
+    "estimatedDuration": "15-30 minutes",
+    "author": "Stark MCP Orchestrator"
+  },
+  "inputs": {
+    "connection": {
+      "type": "object",
+      "description": "Database connection details",
+      "required": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["postgresql", "mysql", "oracle", "mongodb", "cassandra", "dynamodb", "neo4j"]
+        },
+        "host": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "database": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "schema_id": {
+      "type": "string",
+      "description": "Existing schema ID (if already extracted)",
+      "required": false
+    },
+    "analysis_scope": {
+      "type": "string",
+      "description": "Scope of analysis",
+      "enum": ["basic", "standard", "comprehensive"],
+      "default": "standard"
+    },
+    "include_extraction": {
+      "type": "boolean",
+      "description": "Extract schema from database",
+      "default": true
+    },
+    "include_relationships": {
+      "type": "boolean",
+      "description": "Detect relationships",
+      "default": true
+    },
+    "include_query_analysis": {
+      "type": "boolean",
+      "description": "Analyze query patterns",
+      "default": false
+    },
+    "query_log_path": {
+      "type": "string",
+      "description": "Path to query log file"
+    },
+    "include_optimization": {
+      "type": "boolean",
+      "description": "Suggest optimizations",
+      "default": true
+    },
+    "generate_documentation": {
+      "type": "boolean",
+      "description": "Generate documentation",
+      "default": true
+    }
+  },
+  "steps": [
+    {
+      "id": "extract_schema",
+      "name": "Extract Database Schema",
+      "description": "Extract complete schema including tables, columns, constraints, and indexes",
+      "service": "schema",
+      "tool": "extract_schema",
+      "inputs": {
+        "connection": "{{inputs.connection}}",
+        "options": {
+          "include_views": true,
+          "include_procedures": true,
+          "include_triggers": true,
+          "include_indexes": true,
+          "batch_size": 100,
+          "timeout_seconds": 300
+        }
+      },
+      "condition": "{{inputs.include_extraction && inputs.connection}}",
+      "continueOnError": false,
+      "timeout": 600000
+    },
+    {
+      "id": "detect_relationships",
+      "name": "Detect Relationships",
+      "description": "Automatically detect relationships using foreign keys and naming conventions",
+      "service": "schema",
+      "tool": "detect_relationships",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "detection_methods": ["foreign_keys", "naming_conventions", "data_overlap"],
+        "naming_patterns": {
+          "foreign_key_suffix": "_id"
+        },
+        "min_confidence": 0.7,
+        "analyze_data_sample": true,
+        "sample_size": 1000
+      },
+      "condition": "{{inputs.include_relationships}}",
+      "dependencies": ["extract_schema"],
+      "continueOnError": true
+    },
+    {
+      "id": "profile_data",
+      "name": "Profile Data",
+      "description": "Profile data to understand cardinality and distributions",
+      "service": "schema",
+      "tool": "profile_data",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "profiling_options": {
+          "calculate_cardinality": true,
+          "detect_patterns": true,
+          "analyze_distributions": true,
+          "check_data_quality": true,
+          "sample_size": 10000,
+          "include_statistics": true
+        }
+      },
+      "condition": "{{inputs.analysis_scope === 'comprehensive'}}",
+      "dependencies": ["extract_schema"],
+      "continueOnError": true
+    },
+    {
+      "id": "analyze_query_patterns",
+      "name": "Analyze Query Patterns",
+      "description": "Analyze query logs to detect N+1 patterns and hot tables",
+      "service": "schema",
+      "tool": "analyze_query_patterns",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "query_log": {
+          "source_type": "file",
+          "source_path": "{{inputs.query_log_path}}",
+          "format": "{{inputs.connection.type}}"
+        },
+        "analysis_options": {
+          "detect_n_plus_one": true,
+          "identify_hot_tables": true,
+          "analyze_slow_queries": true,
+          "slow_query_threshold_ms": 1000,
+          "min_query_count": 10
+        }
+      },
+      "condition": "{{inputs.include_query_analysis && inputs.query_log_path}}",
+      "dependencies": ["extract_schema"],
+      "continueOnError": true
+    },
+    {
+      "id": "suggest_indexes",
+      "name": "Suggest Indexes",
+      "description": "Suggest optimal indexes based on schema and query patterns",
+      "service": "schema",
+      "tool": "suggest_indexes",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "query_analysis_id": "{{steps.analyze_query_patterns.output.analysis_id}}",
+        "options": {
+          "consider_existing": true,
+          "max_suggestions": 20,
+          "min_impact_score": 0.5,
+          "index_types": ["btree", "hash", "gin"],
+          "consider_composite": true,
+          "max_columns_per_index": 3
+        }
+      },
+      "condition": "{{inputs.include_optimization}}",
+      "dependencies": ["extract_schema", "analyze_query_patterns"],
+      "continueOnError": true
+    },
+    {
+      "id": "generate_erd",
+      "name": "Generate ERD",
+      "description": "Generate Entity-Relationship Diagram in Mermaid format",
+      "service": "schema",
+      "tool": "generate_erd",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "options": {
+          "format": "mermaid",
+          "include_columns": true,
+          "include_data_types": true,
+          "include_constraints": true,
+          "show_cardinality": true,
+          "max_columns_per_table": 10,
+          "group_by_schema": false
+        }
+      },
+      "dependencies": ["detect_relationships"],
+      "continueOnError": true
+    },
+    {
+      "id": "generate_documentation",
+      "name": "Generate Documentation",
+      "description": "Generate comprehensive schema documentation",
+      "service": "schema",
+      "tool": "generate_documentation",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "options": {
+          "include_erd": true,
+          "include_statistics": true,
+          "include_relationships": true,
+          "include_indexes": true,
+          "include_examples": true,
+          "group_by_category": false,
+          "output_format": "markdown"
+        }
+      },
+      "condition": "{{inputs.generate_documentation}}",
+      "dependencies": ["generate_erd", "detect_relationships", "profile_data", "suggest_indexes"],
+      "continueOnError": false
+    },
+    {
+      "id": "generate_optimization_report",
+      "name": "Generate Optimization Report",
+      "description": "Compile optimization recommendations",
+      "service": "schema",
+      "tool": "generate_report",
+      "inputs": {
+        "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+        "include_sections": [
+          "schema_overview",
+          "relationships",
+          "query_patterns",
+          "index_suggestions",
+          "data_quality",
+          "recommendations"
+        ],
+        "format": "markdown"
+      },
+      "dependencies": ["detect_relationships", "analyze_query_patterns", "suggest_indexes", "profile_data"],
+      "continueOnError": false
+    }
+  ],
+  "outputs": {
+    "schema_id": "{{steps.extract_schema.output.schema_id || inputs.schema_id}}",
+    "schema": "{{steps.extract_schema.output}}",
+    "relationships": "{{steps.detect_relationships.output}}",
+    "data_profile": "{{steps.profile_data.output}}",
+    "query_analysis": "{{steps.analyze_query_patterns.output}}",
+    "index_suggestions": "{{steps.suggest_indexes.output}}",
+    "erd": "{{steps.generate_erd.output}}",
+    "documentation": "{{steps.generate_documentation.output}}",
+    "optimization_report": "{{steps.generate_optimization_report.output}}"
+  },
+  "errorHandling": {
+    "strategy": "continue",
+    "maxRetries": 2,
+    "retryDelay": 3000
+  }
+}

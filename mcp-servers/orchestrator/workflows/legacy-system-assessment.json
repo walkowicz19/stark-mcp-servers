@@ -1,0 +1,322 @@
+{
+  "id": "legacy-system-assessment",
+  "name": "Legacy System Assessment",
+  "description": "Complete evaluation of legacy systems (COBOL, mainframe, etc.) for modernization including business logic extraction, anti-pattern detection, and migration planning",
+  "version": "1.0.0",
+  "metadata": {
+    "category": "legacy-modernization",
+    "tags": ["legacy", "cobol", "mainframe", "modernization", "assessment", "migration"],
+    "estimatedDuration": "20-45 minutes",
+    "author": "Stark MCP Orchestrator"
+  },
+  "inputs": {
+    "legacy_code_path": {
+      "type": "string",
+      "description": "Path to legacy codebase",
+      "required": false
+    },
+    "source_language": {
+      "type": "string",
+      "description": "Legacy language",
+      "enum": ["cobol", "fortran", "assembly", "rpg", "jcl"],
+      "required": true
+    },
+    "target_language": {
+      "type": "string",
+      "description": "Target modern language",
+      "enum": ["python", "java", "javascript", "typescript", "go"],
+      "required": false
+    },
+    "assessment_depth": {
+      "type": "string",
+      "description": "Depth of assessment",
+      "enum": ["quick", "standard", "comprehensive"],
+      "default": "standard"
+    },
+    "include_business_logic": {
+      "type": "boolean",
+      "description": "Extract business logic",
+      "default": true
+    },
+    "include_data_structures": {
+      "type": "boolean",
+      "description": "Analyze data structures",
+      "default": true
+    },
+    "include_dependencies": {
+      "type": "boolean",
+      "description": "Map dependencies",
+      "default": true
+    },
+    "generate_migration_plan": {
+      "type": "boolean",
+      "description": "Generate migration plan",
+      "default": true
+    },
+    "risk_assessment": {
+      "type": "boolean",
+      "description": "Perform risk assessment",
+      "default": true
+    }
+  },
+  "steps": [
+    {
+      "id": "parse_legacy_code",
+      "name": "Parse Legacy Code",
+      "description": "Parse and analyze legacy codebase structure",
+      "service": "legacy",
+      "tool": "parse_code",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "options": {
+          "include_comments": true,
+          "extract_metadata": true,
+          "parse_copybooks": true
+        }
+      },
+      "continueOnError": false,
+      "timeout": 600000
+    },
+    {
+      "id": "analyze_structure",
+      "name": "Analyze Code Structure",
+      "description": "Analyze program structure, modules, and organization",
+      "service": "legacy",
+      "tool": "analyze_structure",
+      "inputs": {
+        "parsed_code": "{{steps.parse_legacy_code.output}}",
+        "language": "{{inputs.source_language}}",
+        "analysis_options": {
+          "identify_modules": true,
+          "map_call_hierarchy": true,
+          "detect_dead_code": true
+        }
+      },
+      "dependencies": ["parse_legacy_code"],
+      "continueOnError": false
+    },
+    {
+      "id": "extract_business_logic",
+      "name": "Extract Business Logic",
+      "description": "Identify and extract core business logic and rules",
+      "service": "legacy",
+      "tool": "extract_business_logic",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "extraction_options": {
+          "identify_business_rules": true,
+          "extract_calculations": true,
+          "map_data_flows": true,
+          "document_logic": true
+        }
+      },
+      "condition": "{{inputs.include_business_logic}}",
+      "dependencies": ["analyze_structure"],
+      "continueOnError": true
+    },
+    {
+      "id": "analyze_data_structures",
+      "name": "Analyze Data Structures",
+      "description": "Analyze COBOL copybooks, data divisions, and file structures",
+      "service": "legacy",
+      "tool": "analyze_data_structures",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "analysis_options": {
+          "parse_copybooks": true,
+          "map_file_layouts": true,
+          "identify_data_types": true,
+          "detect_redefines": true
+        }
+      },
+      "condition": "{{inputs.include_data_structures}}",
+      "dependencies": ["parse_legacy_code"],
+      "continueOnError": true
+    },
+    {
+      "id": "map_dependencies",
+      "name": "Map Dependencies",
+      "description": "Map program dependencies, includes, and external calls",
+      "service": "legacy",
+      "tool": "map_dependencies",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "dependency_options": {
+          "include_copybooks": true,
+          "include_jcl": true,
+          "include_external_calls": true,
+          "build_dependency_graph": true
+        }
+      },
+      "condition": "{{inputs.include_dependencies}}",
+      "dependencies": ["analyze_structure"],
+      "continueOnError": true
+    },
+    {
+      "id": "detect_anti_patterns",
+      "name": "Detect Anti-Patterns",
+      "description": "Identify code smells, anti-patterns, and technical debt",
+      "service": "legacy",
+      "tool": "detect_anti_patterns",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "detection_options": {
+          "check_goto_usage": true,
+          "check_global_variables": true,
+          "check_code_duplication": true,
+          "check_complexity": true,
+          "check_maintainability": true
+        }
+      },
+      "dependencies": ["analyze_structure"],
+      "continueOnError": true
+    },
+    {
+      "id": "assess_complexity",
+      "name": "Assess Code Complexity",
+      "description": "Calculate complexity metrics for legacy code",
+      "service": "legacy",
+      "tool": "assess_complexity",
+      "inputs": {
+        "code_path": "{{inputs.legacy_code_path}}",
+        "language": "{{inputs.source_language}}",
+        "metrics": [
+          "cyclomatic_complexity",
+          "lines_of_code",
+          "nesting_depth",
+          "maintainability_index"
+        ]
+      },
+      "dependencies": ["analyze_structure"],
+      "continueOnError": true
+    },
+    {
+      "id": "perform_risk_assessment",
+      "name": "Perform Risk Assessment",
+      "description": "Assess migration risks and identify critical components",
+      "service": "legacy",
+      "tool": "assess_risks",
+      "inputs": {
+        "code_analysis": "{{steps.analyze_structure.output}}",
+        "business_logic": "{{steps.extract_business_logic.output}}",
+        "dependencies": "{{steps.map_dependencies.output}}",
+        "anti_patterns": "{{steps.detect_anti_patterns.output}}",
+        "risk_factors": [
+          "complexity",
+          "dependencies",
+          "business_criticality",
+          "technical_debt",
+          "documentation_quality"
+        ]
+      },
+      "condition": "{{inputs.risk_assessment}}",
+      "dependencies": ["extract_business_logic", "map_dependencies", "detect_anti_patterns", "assess_complexity"],
+      "continueOnError": true
+    },
+    {
+      "id": "generate_translation_preview",
+      "name": "Generate Translation Preview",
+      "description": "Generate sample translation to target language",
+      "service": "legacy",
+      "tool": "translate_code",
+      "inputs": {
+        "source_code": "{{steps.parse_legacy_code.output.sample_code}}",
+        "source_language": "{{inputs.source_language}}",
+        "target_language": "{{inputs.target_language}}",
+        "translation_options": {
+          "preserve_comments": true,
+          "modernize_patterns": true,
+          "add_type_hints": true
+        }
+      },
+      "condition": "{{inputs.target_language}}",
+      "dependencies": ["parse_legacy_code", "extract_business_logic"],
+      "continueOnError": true
+    },
+    {
+      "id": "generate_migration_plan",
+      "name": "Generate Migration Plan",
+      "description": "Create comprehensive migration plan with phases and recommendations",
+      "service": "legacy",
+      "tool": "generate_migration_plan",
+      "inputs": {
+        "source_language": "{{inputs.source_language}}",
+        "target_language": "{{inputs.target_language}}",
+        "code_analysis": "{{steps.analyze_structure.output}}",
+        "business_logic": "{{steps.extract_business_logic.output}}",
+        "data_structures": "{{steps.analyze_data_structures.output}}",
+        "dependencies": "{{steps.map_dependencies.output}}",
+        "risks": "{{steps.perform_risk_assessment.output}}",
+        "plan_options": {
+          "include_phases": true,
+          "include_timeline": true,
+          "include_resource_estimates": true,
+          "include_testing_strategy": true,
+          "include_rollback_plan": true
+        }
+      },
+      "condition": "{{inputs.generate_migration_plan}}",
+      "dependencies": ["analyze_structure", "extract_business_logic", "analyze_data_structures", "map_dependencies", "perform_risk_assessment"],
+      "continueOnError": false
+    },
+    {
+      "id": "generate_assessment_report",
+      "name": "Generate Assessment Report",
+      "description": "Compile comprehensive assessment report",
+      "service": "legacy",
+      "tool": "generate_report",
+      "inputs": {
+        "report_type": "comprehensive_assessment",
+        "include_sections": [
+          "executive_summary",
+          "code_structure",
+          "business_logic",
+          "data_structures",
+          "dependencies",
+          "anti_patterns",
+          "complexity_metrics",
+          "risk_assessment",
+          "migration_plan",
+          "recommendations"
+        ],
+        "data": {
+          "structure": "{{steps.analyze_structure.output}}",
+          "business_logic": "{{steps.extract_business_logic.output}}",
+          "data_structures": "{{steps.analyze_data_structures.output}}",
+          "dependencies": "{{steps.map_dependencies.output}}",
+          "anti_patterns": "{{steps.detect_anti_patterns.output}}",
+          "complexity": "{{steps.assess_complexity.output}}",
+          "risks": "{{steps.perform_risk_assessment.output}}",
+          "migration_plan": "{{steps.generate_migration_plan.output}}",
+          "translation_preview": "{{steps.generate_translation_preview.output}}"
+        },
+        "format": "markdown"
+      },
+      "dependencies": ["analyze_structure", "extract_business_logic", "analyze_data_structures", "map_dependencies", "detect_anti_patterns", "assess_complexity", "perform_risk_assessment", "generate_migration_plan"],
+      "continueOnError": false
+    }
+  ],
+  "outputs": {
+    "parsed_code": "{{steps.parse_legacy_code.output}}",
+    "structure_analysis": "{{steps.analyze_structure.output}}",
+    "business_logic": "{{steps.extract_business_logic.output}}",
+    "data_structures": "{{steps.analyze_data_structures.output}}",
+    "dependencies": "{{steps.map_dependencies.output}}",
+    "anti_patterns": "{{steps.detect_anti_patterns.output}}",
+    "complexity_metrics": "{{steps.assess_complexity.output}}",
+    "risk_assessment": "{{steps.perform_risk_assessment.output}}",
+    "translation_preview": "{{steps.generate_translation_preview.output}}",
+    "migration_plan": "{{steps.generate_migration_plan.output}}",
+    "assessment_report": "{{steps.generate_assessment_report.output}}"
+  },
+  "errorHandling": {
+    "strategy": "continue",
+    "maxRetries": 2,
+    "retryDelay": 3000
+  }
+}

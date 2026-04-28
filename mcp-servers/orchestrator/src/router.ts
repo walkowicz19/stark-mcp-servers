@@ -27,7 +27,9 @@ export class IntelligentRouter {
       'store', 'retrieve', 'compress', 'summarize', 'search'
     ]);
     this.serviceCapabilities.set('intelligence', [
-      'prompt', 'decompose', 'reason', 'rag', 'route', 'reflect', 'collaborate'
+      'prompt', 'decompose', 'reason', 'rag', 'route', 'reflect', 'collaborate',
+      'index', 'search', 'dependencies', 'symbols', 'complexity', 'codebase',
+      'large-scale', 'repository', 'semantic', '50gb', '700-files'
     ]);
     this.serviceCapabilities.set('tokens', [
       'count', 'optimize', 'prune', 'summarize', 'compress', 'filter', 'window', 'cost'
@@ -36,22 +38,123 @@ export class IntelligentRouter {
       'requirements', 'design', 'review', 'test', 'documentation', 'debt', 'cicd', 'integrate'
     ]);
     this.serviceCapabilities.set('legacy', [
-      'parse', 'analyze', 'translate', 'migrate', 'modernize', 'refactor'
+      'parse', 'analyze', 'translate', 'migrate', 'modernize', 'refactor',
+      'cobol', 'mainframe', 'jcl', 'copybook', 'assessment', 'business-logic'
     ]);
     this.serviceCapabilities.set('performance', [
       'profile', 'optimize', 'benchmark', 'bottleneck', 'parallelize'
+    ]);
+    this.serviceCapabilities.set('schema', [
+      'database', 'schema', 'erd', 'migration', 'relationships', 'indexes',
+      'query-patterns', 'data-profile', 'documentation', 'compare'
     ]);
   }
 
   private initializeRoutingRules(): void {
     // Define routing rules for common patterns
     this.rules = [
+      // Large-scale codebase analysis
+      {
+        id: 'large-codebase-index',
+        pattern: /50gb|large.*repository|massive.*codebase|700.*files|huge.*repo/i,
+        targetService: 'intelligence',
+        targetTool: 'index_repository',
+        priority: 11,
+      },
+      {
+        id: 'large-codebase-analysis',
+        pattern: /analyze.*large.*codebase|large.*scale.*analysis|massive.*repo.*analysis/i,
+        targetService: 'intelligence',
+        targetTool: 'semantic_code_search',
+        priority: 10,
+      },
+      // Schema intelligence
+      {
+        id: 'schema-extraction',
+        pattern: /extract.*schema|database.*schema|analyze.*database/i,
+        targetService: 'schema',
+        targetTool: 'extract_schema',
+        priority: 10,
+      },
+      {
+        id: 'schema-relationships',
+        pattern: /detect.*relationships|database.*relationships|foreign.*keys/i,
+        targetService: 'schema',
+        targetTool: 'detect_relationships',
+        priority: 10,
+      },
+      {
+        id: 'schema-erd',
+        pattern: /erd|entity.*relationship.*diagram|database.*diagram/i,
+        targetService: 'schema',
+        targetTool: 'generate_erd',
+        priority: 10,
+      },
+      {
+        id: 'schema-migration',
+        pattern: /migration|migrate.*database|schema.*migration/i,
+        targetService: 'schema',
+        targetTool: 'generate_migration',
+        priority: 10,
+      },
+      {
+        id: 'query-optimization',
+        pattern: /query.*optimization|optimize.*queries|index.*suggestion/i,
+        targetService: 'schema',
+        targetTool: 'suggest_indexes',
+        priority: 9,
+      },
+      {
+        id: 'query-patterns',
+        pattern: /query.*patterns|n\+1|slow.*queries|query.*analysis/i,
+        targetService: 'schema',
+        targetTool: 'analyze_query_patterns',
+        priority: 9,
+      },
+      // Legacy system modernization
+      {
+        id: 'legacy-cobol',
+        pattern: /cobol|mainframe|jcl|copybook/i,
+        targetService: 'legacy',
+        targetTool: 'analyze',
+        priority: 10,
+      },
+      {
+        id: 'legacy-assessment',
+        pattern: /legacy.*assessment|modernization.*plan|legacy.*evaluation/i,
+        targetService: 'legacy',
+        targetTool: 'analyze',
+        priority: 10,
+      },
+      {
+        id: 'legacy-business-logic',
+        pattern: /extract.*business.*logic|business.*rules|legacy.*logic/i,
+        targetService: 'legacy',
+        targetTool: 'analyze',
+        priority: 9,
+      },
+      // Security
       {
         id: 'security-scan',
         pattern: /security|vulnerability|scan|sensitive/i,
         targetService: 'security',
         targetTool: 'scan',
         priority: 10,
+      },
+      // Code intelligence
+      {
+        id: 'code-intelligence-index',
+        pattern: /index.*repository|index.*codebase/i,
+        targetService: 'intelligence',
+        targetTool: 'index_repository',
+        priority: 10,
+      },
+      {
+        id: 'code-intelligence-search',
+        pattern: /search.*code|find.*code|semantic.*search/i,
+        targetService: 'intelligence',
+        targetTool: 'semantic_code_search',
+        priority: 9,
       },
       {
         id: 'code-generation',
@@ -61,11 +164,25 @@ export class IntelligentRouter {
         priority: 9,
       },
       {
+        id: 'dependency-analysis',
+        pattern: /dependencies|impact.*radius|what.*depends/i,
+        targetService: 'intelligence',
+        targetTool: 'analyze_dependencies',
+        priority: 9,
+      },
+      {
         id: 'legacy-translation',
-        pattern: /translate|modernize|cobol|fortran|legacy/i,
+        pattern: /translate|modernize.*legacy/i,
         targetService: 'legacy',
         targetTool: 'translate',
         priority: 9,
+      },
+      {
+        id: 'symbol-references',
+        pattern: /find.*references|where.*used|symbol.*usage/i,
+        targetService: 'intelligence',
+        targetTool: 'find_symbol_references',
+        priority: 8,
       },
       {
         id: 'performance-optimization',
@@ -80,6 +197,21 @@ export class IntelligentRouter {
         targetService: 'sdlc',
         targetTool: 'review',
         priority: 8,
+      },
+      {
+        id: 'complexity-analysis',
+        pattern: /complexity|maintainability|code.*quality.*metrics/i,
+        targetService: 'intelligence',
+        targetTool: 'analyze_code_complexity',
+        priority: 7,
+      },
+      // Cross-capability workflows
+      {
+        id: 'full-system-assessment',
+        pattern: /full.*assessment|complete.*analysis|system.*evaluation|comprehensive.*audit/i,
+        targetService: 'intelligence',
+        targetTool: 'full_assessment',
+        priority: 11,
       },
     ];
   }
@@ -169,6 +301,28 @@ export class IntelligentRouter {
     const decisions: RoutingDecision[] = [];
     const args = request.arguments;
 
+    // Check for large codebase indicators
+    if (this.containsLargeCodebaseIndicators(args)) {
+      decisions.push({
+        service: 'intelligence',
+        tool: 'index_repository',
+        priority: 10,
+        reasoning: 'Large codebase indicators detected',
+        confidence: 0.8,
+      });
+    }
+
+    // Check for schema/database keywords
+    if (this.containsSchemaKeywords(args)) {
+      decisions.push({
+        service: 'schema',
+        tool: 'extract_schema',
+        priority: 9,
+        reasoning: 'Database schema keywords detected',
+        confidence: 0.75,
+      });
+    }
+
     // Check for security-related keywords
     if (this.containsSecurityKeywords(args)) {
       decisions.push({
@@ -205,6 +359,18 @@ export class IntelligentRouter {
     return decisions;
   }
 
+  private containsLargeCodebaseIndicators(args: Record<string, any>): boolean {
+    const indicators = ['50gb', 'large repository', '700 files', 'massive codebase', 'huge repo', 'large-scale'];
+    const text = JSON.stringify(args).toLowerCase();
+    return indicators.some(indicator => text.includes(indicator));
+  }
+
+  private containsSchemaKeywords(args: Record<string, any>): boolean {
+    const keywords = ['database', 'schema', 'erd', 'migration', 'query', 'index', 'table', 'sql'];
+    const text = JSON.stringify(args).toLowerCase();
+    return keywords.some(keyword => text.includes(keyword));
+  }
+
   private containsSecurityKeywords(args: Record<string, any>): boolean {
     const keywords = ['password', 'secret', 'key', 'token', 'credential', 'auth', 'encrypt'];
     const text = JSON.stringify(args).toLowerCase();
@@ -212,7 +378,7 @@ export class IntelligentRouter {
   }
 
   private containsLegacyIndicators(args: Record<string, any>): boolean {
-    const indicators = ['cobol', 'fortran', 'assembly', 'mainframe', 'rpg', 'jcl'];
+    const indicators = ['cobol', 'fortran', 'assembly', 'mainframe', 'rpg', 'jcl', 'copybook', 'legacy'];
     const text = JSON.stringify(args).toLowerCase();
     return indicators.some(indicator => text.includes(indicator));
   }

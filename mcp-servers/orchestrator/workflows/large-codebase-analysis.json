@@ -1,0 +1,197 @@
+{
+  "id": "large-codebase-analysis",
+  "name": "Large Codebase Analysis",
+  "description": "Comprehensive analysis of 50GB+ repositories with 700+ files using incremental indexing and semantic search",
+  "version": "1.0.0",
+  "metadata": {
+    "category": "code-intelligence",
+    "tags": ["large-scale", "indexing", "semantic-search", "dependencies", "complexity"],
+    "estimatedDuration": "30-60 minutes",
+    "author": "Stark MCP Orchestrator"
+  },
+  "inputs": {
+    "repo_url": {
+      "type": "string",
+      "description": "Repository URL to analyze",
+      "required": false
+    },
+    "repo_id": {
+      "type": "string",
+      "description": "Existing repository ID (if already indexed)",
+      "required": false
+    },
+    "analysis_type": {
+      "type": "string",
+      "description": "Type of analysis",
+      "enum": ["full", "incremental", "targeted"],
+      "default": "full"
+    },
+    "include_indexing": {
+      "type": "boolean",
+      "description": "Index repository before analysis",
+      "default": true
+    },
+    "include_dependencies": {
+      "type": "boolean",
+      "description": "Analyze dependencies",
+      "default": true
+    },
+    "include_complexity": {
+      "type": "boolean",
+      "description": "Analyze code complexity",
+      "default": true
+    },
+    "target_paths": {
+      "type": "array",
+      "description": "Specific paths to analyze (for targeted analysis)",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "steps": [
+    {
+      "id": "validate_inputs",
+      "name": "Validate Inputs",
+      "description": "Validate repository URL or ID is provided",
+      "service": "intelligence",
+      "tool": "validate_repository",
+      "inputs": {
+        "repo_url": "{{inputs.repo_url}}",
+        "repo_id": "{{inputs.repo_id}}"
+      },
+      "continueOnError": false
+    },
+    {
+      "id": "index_repository",
+      "name": "Index Repository",
+      "description": "Index large repository with incremental updates for 50GB+ codebases",
+      "service": "intelligence",
+      "tool": "index_repository",
+      "inputs": {
+        "repo_url": "{{inputs.repo_url}}",
+        "branch": "main",
+        "incremental": "{{inputs.analysis_type === 'incremental'}}",
+        "options": {
+          "batch_size": 1000,
+          "enable_caching": true,
+          "parallel_processing": true,
+          "max_file_size_mb": 10
+        }
+      },
+      "condition": "{{inputs.include_indexing && inputs.repo_url}}",
+      "continueOnError": false,
+      "timeout": 3600000
+    },
+    {
+      "id": "check_index_status",
+      "name": "Check Index Status",
+      "description": "Monitor indexing progress",
+      "service": "intelligence",
+      "tool": "get_index_status",
+      "inputs": {
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "job_id": "{{steps.index_repository.output.job_id}}"
+      },
+      "dependencies": ["index_repository"],
+      "continueOnError": false
+    },
+    {
+      "id": "semantic_search_overview",
+      "name": "Semantic Code Search Overview",
+      "description": "Perform semantic search to understand codebase structure",
+      "service": "intelligence",
+      "tool": "semantic_code_search",
+      "inputs": {
+        "query": "main entry points and core functionality",
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "limit": 50,
+        "include_context": true
+      },
+      "dependencies": ["check_index_status"],
+      "continueOnError": true
+    },
+    {
+      "id": "analyze_dependencies",
+      "name": "Analyze Dependencies",
+      "description": "Analyze file dependencies and impact radius",
+      "service": "intelligence",
+      "tool": "analyze_dependencies",
+      "inputs": {
+        "file_path": "{{inputs.target_paths[0] || '/'}}",
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "depth": 3,
+        "direction": "both",
+        "include_transitive": true
+      },
+      "condition": "{{inputs.include_dependencies}}",
+      "dependencies": ["check_index_status"],
+      "continueOnError": true
+    },
+    {
+      "id": "analyze_complexity",
+      "name": "Analyze Code Complexity",
+      "description": "Calculate complexity metrics for the codebase",
+      "service": "intelligence",
+      "tool": "analyze_code_complexity",
+      "inputs": {
+        "path": "/",
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "metrics": ["cyclomatic_complexity", "cognitive_complexity", "maintainability_index"],
+        "recursive": true
+      },
+      "condition": "{{inputs.include_complexity}}",
+      "dependencies": ["check_index_status"],
+      "continueOnError": true
+    },
+    {
+      "id": "find_hotspots",
+      "name": "Find Code Hotspots",
+      "description": "Identify frequently changed and complex files",
+      "service": "intelligence",
+      "tool": "semantic_code_search",
+      "inputs": {
+        "query": "high complexity files and frequently modified code",
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "limit": 20,
+        "include_context": true
+      },
+      "dependencies": ["analyze_complexity"],
+      "continueOnError": true
+    },
+    {
+      "id": "generate_report",
+      "name": "Generate Analysis Report",
+      "description": "Compile comprehensive analysis report",
+      "service": "intelligence",
+      "tool": "generate_report",
+      "inputs": {
+        "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+        "include_sections": [
+          "overview",
+          "dependencies",
+          "complexity",
+          "hotspots",
+          "recommendations"
+        ],
+        "format": "markdown"
+      },
+      "dependencies": ["semantic_search_overview", "analyze_dependencies", "analyze_complexity", "find_hotspots"],
+      "continueOnError": false
+    }
+  ],
+  "outputs": {
+    "repo_id": "{{steps.index_repository.output.repo_id || inputs.repo_id}}",
+    "index_status": "{{steps.check_index_status.output}}",
+    "overview": "{{steps.semantic_search_overview.output}}",
+    "dependencies": "{{steps.analyze_dependencies.output}}",
+    "complexity": "{{steps.analyze_complexity.output}}",
+    "hotspots": "{{steps.find_hotspots.output}}",
+    "report": "{{steps.generate_report.output}}"
+  },
+  "errorHandling": {
+    "strategy": "continue",
+    "maxRetries": 3,
+    "retryDelay": 5000
+  }
+}
