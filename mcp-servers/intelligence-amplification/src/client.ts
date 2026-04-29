@@ -1,8 +1,8 @@
-﻿import { StarkApiClient, ToolResult } from '../../shared/src/index.js';
+﻿import { SytraApiClient, ToolResult } from '../../shared/src/index.js';
 
 const API_URL = process.env.INTELLIGENCE_API_URL || "http://localhost:8004";
 
-const intelligenceClient = new StarkApiClient(
+const intelligenceClient = new SytraApiClient(
   { baseUrl: API_URL },
   "Intelligence Amplification"
 );

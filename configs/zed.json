@@ -6,10 +6,10 @@
       "api_key": "your-anthropic-api-key-here"
     },
     "mcp_servers": {
-      "stark-orchestrator": {
+      "sytra-orchestrator": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"
         ],
         "env": {
           "SECURITY_API_URL": "http://localhost:8001",
@@ -23,82 +23,82 @@
           "PERFORMANCE_API_URL": "http://localhost:8009"
         }
       },
-      "stark-intelligence": {
+      "sytra-intelligence": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/intelligence-amplification/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/intelligence-amplification/build/index.js"
         ],
         "env": {
           "INTELLIGENCE_API_URL": "http://localhost:8004"
         }
       },
-      "stark-schema": {
+      "sytra-schema": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/schema-intelligence/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/schema-intelligence/build/index.js"
         ],
         "env": {
           "SCHEMA_API_URL": "http://localhost:8008"
         }
       },
-      "stark-security": {
+      "sytra-security": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/security-guardrails/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/security-guardrails/build/index.js"
         ],
         "env": {
           "SECURITY_API_URL": "http://localhost:8001"
         }
       },
-      "stark-codegen": {
+      "sytra-codegen": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/code-generation/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/code-generation/build/index.js"
         ],
         "env": {
           "CODEGEN_API_URL": "http://localhost:8002"
         }
       },
-      "stark-memory": {
+      "sytra-memory": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/memory-management/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/memory-management/build/index.js"
         ],
         "env": {
           "MEMORY_API_URL": "http://localhost:8003"
         }
       },
-      "stark-tokens": {
+      "sytra-tokens": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/token-optimization/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/token-optimization/build/index.js"
         ],
         "env": {
           "TOKEN_API_URL": "http://localhost:8005"
         }
       },
-      "stark-sdlc": {
+      "sytra-sdlc": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/sdlc-integration/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/sdlc-integration/build/index.js"
         ],
         "env": {
           "SDLC_API_URL": "http://localhost:8006"
         }
       },
-      "stark-legacy": {
+      "sytra-legacy": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/legacy-support/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/legacy-support/build/index.js"
         ],
         "env": {
           "LEGACY_API_URL": "http://localhost:8007"
         }
       },
-      "stark-performance": {
+      "sytra-performance": {
         "command": "node",
         "args": [
-          "/absolute/path/to/stark-mcp/mcp-servers/performance-optimizer/build/index.js"
+          "/absolute/path/to/sytra-mcp/mcp-servers/performance-optimizer/build/index.js"
         ],
         "env": {
           "PERFORMANCE_API_URL": "http://localhost:8009"

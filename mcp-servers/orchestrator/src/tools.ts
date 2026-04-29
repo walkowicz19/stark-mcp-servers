@@ -17,7 +17,7 @@ const router = new IntelligentRouter();
  */
 export const tools: ToolDefinition[] = [
   {
-    name: 'stark_analyze_code',
+    name: 'sytra_analyze_code',
     description: 'Comprehensive code analysis combining security scanning, code generation validation, and performance profiling',
     inputSchema: {
       type: 'object',
@@ -50,7 +50,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_generate_secure_code',
+    name: 'sytra_generate_secure_code',
     description: 'Generate code with automatic security validation and best practices',
     inputSchema: {
       type: 'object',
@@ -84,7 +84,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_modernize_legacy',
+    name: 'sytra_modernize_legacy',
     description: 'Modernize legacy code with translation, optimization, and migration planning',
     inputSchema: {
       type: 'object',
@@ -118,7 +118,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_optimize_workflow',
+    name: 'sytra_optimize_workflow',
     description: 'Optimize development workflow with intelligent suggestions',
     inputSchema: {
       type: 'object',
@@ -144,7 +144,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_full_sdlc_cycle',
+    name: 'sytra_full_sdlc_cycle',
     description: 'Execute complete SDLC from requirements to deployment',
     inputSchema: {
       type: 'object',
@@ -171,7 +171,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_intelligent_refactor',
+    name: 'sytra_intelligent_refactor',
     description: 'AI-powered code refactoring with best practices',
     inputSchema: {
       type: 'object',
@@ -202,7 +202,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_security_audit',
+    name: 'sytra_security_audit',
     description: 'Complete security audit with vulnerability detection and remediation',
     inputSchema: {
       type: 'object',
@@ -231,7 +231,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_performance_tune',
+    name: 'sytra_performance_tune',
     description: 'End-to-end performance optimization and tuning',
     inputSchema: {
       type: 'object',
@@ -259,7 +259,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_memory_optimize',
+    name: 'sytra_memory_optimize',
     description: 'Context and memory optimization for AI interactions',
     inputSchema: {
       type: 'object',
@@ -282,7 +282,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_code_intelligence',
+    name: 'sytra_code_intelligence',
     description: 'Large-scale codebase intelligence: index repositories (50GB+), semantic search, dependency analysis, and complexity metrics',
     inputSchema: {
       type: 'object',
@@ -321,7 +321,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_analyze_large_codebase',
+    name: 'sytra_analyze_large_codebase',
     description: 'Comprehensive analysis of 50GB+ repositories with 700+ files. Orchestrates indexing, semantic search, dependency analysis, and complexity metrics for massive codebases.',
     inputSchema: {
       type: 'object',
@@ -368,7 +368,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_analyze_database_system',
+    name: 'sytra_analyze_database_system',
     description: 'Complete database schema analysis and optimization. Orchestrates schema extraction, relationship detection, query pattern analysis, and index suggestions.',
     inputSchema: {
       type: 'object',
@@ -448,7 +448,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_modernize_legacy_system',
+    name: 'sytra_modernize_legacy_system',
     description: 'Complete legacy system modernization assessment. Orchestrates legacy code analysis, business logic extraction, anti-pattern detection, and modernization planning.',
     inputSchema: {
       type: 'object',
@@ -503,7 +503,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_full_system_assessment',
+    name: 'sytra_full_system_assessment',
     description: 'Complete system analysis using all capabilities. Orchestrates code intelligence, database analysis, legacy assessment, security audit, and performance profiling.',
     inputSchema: {
       type: 'object',
@@ -569,7 +569,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_execute_workflow',
+    name: 'sytra_execute_workflow',
     description: 'Execute a custom or pre-defined workflow',
     inputSchema: {
       type: 'object',
@@ -596,7 +596,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_list_workflows',
+    name: 'sytra_list_workflows',
     description: 'List available pre-defined workflows',
     inputSchema: {
       type: 'object',
@@ -617,7 +617,7 @@ export const tools: ToolDefinition[] = [
     },
   },
   {
-    name: 'stark_get_workflow_status',
+    name: 'sytra_get_workflow_status',
     description: 'Get status of a running workflow',
     inputSchema: {
       type: 'object',
@@ -641,8 +641,8 @@ export const tools: ToolDefinition[] = [
  * Tool handlers
  */
 export const toolHandlers = {
-  stark_analyze_code: async (args: any) => {
-    logger.info('Executing stark_analyze_code', { language: args.language });
+  sytra_analyze_code: async (args: any) => {
+    logger.info('Executing sytra_analyze_code', { language: args.language });
     
     // This would orchestrate calls to multiple services
     const results: any = {
@@ -669,8 +669,8 @@ export const toolHandlers = {
     return results;
   },
 
-  stark_generate_secure_code: async (args: any) => {
-    logger.info('Executing stark_generate_secure_code', { language: args.language });
+  sytra_generate_secure_code: async (args: any) => {
+    logger.info('Executing sytra_generate_secure_code', { language: args.language });
     
     // Execute the secure code generation workflow
     const workflow = workflowDefinitions.getWorkflow('secure-code-generation');
@@ -687,8 +687,8 @@ export const toolHandlers = {
     return { error: 'Workflow not found' };
   },
 
-  stark_modernize_legacy: async (args: any) => {
-    logger.info('Executing stark_modernize_legacy', {
+  sytra_modernize_legacy: async (args: any) => {
+    logger.info('Executing sytra_modernize_legacy', {
       sourceLanguage: args.sourceLanguage,
       targetLanguage: args.targetLanguage,
     });
@@ -707,8 +707,8 @@ export const toolHandlers = {
     return { error: 'Workflow not found' };
   },
 
-  stark_optimize_workflow: async (args: any) => {
-    logger.info('Executing stark_optimize_workflow');
+  sytra_optimize_workflow: async (args: any) => {
+    logger.info('Executing sytra_optimize_workflow');
     
     // Use intelligence service to analyze and optimize workflow
     return {
@@ -718,8 +718,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_full_sdlc_cycle: async (args: any) => {
-    logger.info('Executing stark_full_sdlc_cycle');
+  sytra_full_sdlc_cycle: async (args: any) => {
+    logger.info('Executing sytra_full_sdlc_cycle');
     
     // Execute the full SDLC workflow
     const workflow = workflowDefinitions.getWorkflow('full-sdlc-cycle');
@@ -738,8 +738,8 @@ export const toolHandlers = {
     return { error: 'Workflow not found' };
   },
 
-  stark_intelligent_refactor: async (args: any) => {
-    logger.info('Executing stark_intelligent_refactor', { language: args.language });
+  sytra_intelligent_refactor: async (args: any) => {
+    logger.info('Executing sytra_intelligent_refactor', { language: args.language });
     
     return {
       refactoredCode: args.code,
@@ -748,8 +748,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_security_audit: async (args: any) => {
-    logger.info('Executing stark_security_audit', {
+  sytra_security_audit: async (args: any) => {
+    logger.info('Executing sytra_security_audit', {
       language: args.language,
       auditDepth: args.auditDepth,
     });
@@ -762,8 +762,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_performance_tune: async (args: any) => {
-    logger.info('Executing stark_performance_tune', { language: args.language });
+  sytra_performance_tune: async (args: any) => {
+    logger.info('Executing sytra_performance_tune', { language: args.language });
     
     // Execute the performance optimization workflow
     const workflow = workflowDefinitions.getWorkflow('performance-optimization');
@@ -778,8 +778,8 @@ export const toolHandlers = {
     return { error: 'Workflow not found' };
   },
 
-  stark_memory_optimize: async (args: any) => {
-    logger.info('Executing stark_memory_optimize');
+  sytra_memory_optimize: async (args: any) => {
+    logger.info('Executing sytra_memory_optimize');
     
     return {
       optimizedContext: args.context,
@@ -789,8 +789,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_analyze_large_codebase: async (args: any) => {
-    logger.info('Executing stark_analyze_large_codebase', {
+  sytra_analyze_large_codebase: async (args: any) => {
+    logger.info('Executing sytra_analyze_large_codebase', {
       repo_url: args.repo_url,
       repo_id: args.repo_id,
       analysis_type: args.analysis_type
@@ -817,8 +817,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_analyze_database_system: async (args: any) => {
-    logger.info('Executing stark_analyze_database_system', {
+  sytra_analyze_database_system: async (args: any) => {
+    logger.info('Executing sytra_analyze_database_system', {
       database_type: args.connection?.type,
       schema_id: args.schema_id,
       analysis_scope: args.analysis_scope
@@ -847,8 +847,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_modernize_legacy_system: async (args: any) => {
-    logger.info('Executing stark_modernize_legacy_system', {
+  sytra_modernize_legacy_system: async (args: any) => {
+    logger.info('Executing sytra_modernize_legacy_system', {
       source_language: args.source_language,
       target_language: args.target_language,
       assessment_depth: args.assessment_depth
@@ -877,8 +877,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_full_system_assessment: async (args: any) => {
-    logger.info('Executing stark_full_system_assessment', {
+  sytra_full_system_assessment: async (args: any) => {
+    logger.info('Executing sytra_full_system_assessment', {
       system_type: args.system_type,
       assessment_goals: args.assessment_goals
     });
@@ -942,8 +942,8 @@ export const toolHandlers = {
     return results;
   },
 
-  stark_execute_workflow: async (args: any) => {
-    logger.info('Executing stark_execute_workflow', { workflowId: args.workflowId });
+  sytra_execute_workflow: async (args: any) => {
+    logger.info('Executing sytra_execute_workflow', { workflowId: args.workflowId });
     
     let workflow;
     
@@ -961,8 +961,8 @@ export const toolHandlers = {
     return result;
   },
 
-  stark_list_workflows: async (args: any) => {
-    logger.info('Executing stark_list_workflows');
+  sytra_list_workflows: async (args: any) => {
+    logger.info('Executing sytra_list_workflows');
     
     let workflows = workflowDefinitions.getAllWorkflows();
 
@@ -984,8 +984,8 @@ export const toolHandlers = {
     };
   },
 
-  stark_get_workflow_status: async (args: any) => {
-    logger.info('Executing stark_get_workflow_status', { workflowId: args.workflowId });
+  sytra_get_workflow_status: async (args: any) => {
+    logger.info('Executing sytra_get_workflow_status', { workflowId: args.workflowId });
     
     const state = workflowEngine.getExecutionState(args.workflowId);
     

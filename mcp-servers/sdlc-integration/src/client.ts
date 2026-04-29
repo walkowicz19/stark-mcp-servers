@@ -1,8 +1,8 @@
-﻿import { StarkApiClient, ToolResult } from '../../shared/src/index.js';
+﻿import { SytraApiClient, ToolResult } from '../../shared/src/index.js';
 
 const API_URL = process.env.SDLC_API_URL || "http://localhost:8006";
 
-const sdlcClient = new StarkApiClient(
+const sdlcClient = new SytraApiClient(
   { baseUrl: API_URL },
   "SDLC Integration"
 );

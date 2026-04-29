@@ -1,4 +1,4 @@
-# Stark MCP Servers Setup Script
+# Sytra MCP Servers Setup Script
 # Installs dependencies and builds all MCP servers
 
 param(
@@ -210,9 +210,9 @@ if ($successCount -eq $totalServers) {
     Write-ColorOutput "`nNext steps:" "Cyan"
     Write-ColorOutput "  1. Configure your IDE (see configs/ directory)" "Gray"
     Write-ColorOutput "  2. Update paths in config to match your installation" "Gray"
-    Write-ColorOutput "  3. Start the Stark backend services" "Gray"
+    Write-ColorOutput "  3. Start the Sytra backend services" "Gray"
     Write-ColorOutput "  4. Restart your IDE to load the MCP servers" "Gray"
-    Write-ColorOutput "  5. Test with: 'stark analyze this code...'" "Gray"
+    Write-ColorOutput "  5. Test with: 'sytra analyze this code...'" "Gray"
     exit 0
 }
 else {

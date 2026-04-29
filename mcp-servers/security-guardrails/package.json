@@ -1,10 +1,10 @@
 {
-  "name": "@stark/security-guardrails-mcp",
+  "name": "@sytra/security-guardrails-mcp",
   "version": "1.0.0",
-  "description": "MCP server for Stark Security Guardrails service",
+  "description": "MCP server for Sytra Security Guardrails service",
   "type": "module",
   "bin": {
-    "stark-security-mcp": "./build/index.js"
+    "sytra-security-mcp": "./build/index.js"
   },
   "scripts": {
     "build": "tsc",

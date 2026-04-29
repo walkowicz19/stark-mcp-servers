@@ -10,7 +10,7 @@ import { callTool } from "./client.js";
 
 const server = new Server(
   {
-    name: "@stark/schema-intelligence-mcp",
+    name: "@sytra/schema-intelligence-mcp",
     version: "1.0.0",
   },
   {
@@ -46,7 +46,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Stark Schema Intelligence MCP Server running on stdio");
+  console.error("Sytra Schema Intelligence MCP Server running on stdio");
 }
 
 main().catch((error) => {

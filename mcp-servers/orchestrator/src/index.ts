@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Stark Orchestrator MCP Server
+ * Sytra Orchestrator MCP Server
  * Main entry point for the orchestrator with intelligent routing and workflow engine
  */
 
@@ -21,11 +21,11 @@ import { ErrorHandler } from './utils/error-handler.js';
  * Create and configure the MCP server
  */
 async function main() {
-  logger.info('Starting Stark Orchestrator MCP Server');
+  logger.info('Starting Sytra Orchestrator MCP Server');
 
   const server = new Server(
     {
-      name: 'stark-orchestrator',
+      name: 'sytra-orchestrator',
       version: '1.0.0',
     },
     {
@@ -101,17 +101,17 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  logger.info('Stark Orchestrator MCP Server started successfully');
+  logger.info('Sytra Orchestrator MCP Server started successfully');
 
   // Handle graceful shutdown
   process.on('SIGINT', async () => {
-    logger.info('Shutting down Stark Orchestrator MCP Server');
+    logger.info('Shutting down Sytra Orchestrator MCP Server');
     await server.close();
     process.exit(0);
   });
 
   process.on('SIGTERM', async () => {
-    logger.info('Shutting down Stark Orchestrator MCP Server');
+    logger.info('Shutting down Sytra Orchestrator MCP Server');
     await server.close();
     process.exit(0);
   });

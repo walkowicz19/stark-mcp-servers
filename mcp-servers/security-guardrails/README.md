@@ -1,6 +1,6 @@
-# Stark Security Guardrails MCP Server
+# Sytra Security Guardrails MCP Server
 
-MCP server providing data classification, access control, encryption, and audit logging capabilities from the Stark Security Guardrails service.
+MCP server providing data classification, access control, encryption, and audit logging capabilities from the Sytra Security Guardrails service.
 
 ## Tools
 
@@ -65,7 +65,7 @@ Add to Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "stark-security": {
+    "sytra-security": {
       "command": "node",
       "args": ["/absolute/path/to/mcp-servers/security-guardrails/build/index.js"],
       "env": {
@@ -79,4 +79,4 @@ Add to Claude Desktop config:
 ## Requirements
 
 - Node.js 18+
-- Running Stark Security Guardrails service on port 8001
+- Running Sytra Security Guardrails service on port 8001

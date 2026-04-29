@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
       "args": [
-        "C:/Users/YourUsername/Documents/Automation/stark-mcp/mcp-servers/orchestrator/build/index.js"
+        "C:/Users/YourUsername/Documents/Automation/sytra-mcp/mcp-servers/orchestrator/build/index.js"
       ],
       "env": {
         "STARK_SECURITY_URL": "http://localhost:8001",

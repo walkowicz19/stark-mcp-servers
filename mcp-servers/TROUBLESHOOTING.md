@@ -1,6 +1,6 @@
-# Stark MCP Servers - Troubleshooting Guide
+# Sytra MCP Servers - Troubleshooting Guide
 
-Common issues and solutions for Stark MCP servers.
+Common issues and solutions for Sytra MCP servers.
 
 ## Installation Issues
 
@@ -76,7 +76,7 @@ Common issues and solutions for Stark MCP servers.
 **Problem**: "ECONNREFUSED" or "Connection refused" errors
 
 **Solutions**:
-1. Verify Stark services are running:
+1. Verify Sytra services are running:
    ```bash
    curl http://localhost:8001/health
    curl http://localhost:8002/health
@@ -124,7 +124,7 @@ Common issues and solutions for Stark MCP servers.
 
 ### FastAPI service not starting
 
-**Problem**: Stark service fails to start
+**Problem**: Sytra service fails to start
 
 **Solutions**:
 1. Check Python version:
@@ -203,7 +203,7 @@ Common issues and solutions for Stark MCP servers.
 
 3. Increase timeout in client.ts:
    ```typescript
-   const client = new StarkApiClient(
+   const client = new SytraApiClient(
      { baseUrl: API_BASE_URL, timeout: 60000 }, // Increase timeout
      "Service Name"
    );

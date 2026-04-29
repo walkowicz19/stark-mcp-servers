@@ -1,4 +1,4 @@
-# Stark Code Generation MCP Server
+# Sytra Code Generation MCP Server
 
 MCP server for code generation, validation, and sandbox execution.
 
@@ -56,7 +56,7 @@ npm run build
 ```json
 {
   "mcpServers": {
-    "stark-codegen": {
+    "sytra-codegen": {
       "command": "node",
       "args": ["/absolute/path/to/mcp-servers/code-generation/build/index.js"],
       "env": {
@@ -70,4 +70,4 @@ npm run build
 ## Requirements
 
 - Node.js 18+
-- Running Stark Code Generation service on port 8002
+- Running Sytra Code Generation service on port 8002

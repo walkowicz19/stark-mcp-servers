@@ -1,6 +1,6 @@
-import { StarkApiClient } from "../../shared/src/index.js";
+import { SytraApiClient } from "../../shared/src/index.js";
 const API_BASE_URL = process.env.CODEGEN_API_URL || "http://localhost:8002";
-const client = new StarkApiClient({ baseUrl: API_BASE_URL }, "Code Generation");
+const client = new SytraApiClient({ baseUrl: API_BASE_URL }, "Code Generation");
 export async function callTool(name, args) {
     try {
         switch (name) {

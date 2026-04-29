@@ -1,8 +1,8 @@
-﻿import { StarkApiClient, ToolResult } from '../../shared/src/index.js';
+﻿import { SytraApiClient, ToolResult } from '../../shared/src/index.js';
 
 const API_URL = process.env.MEMORY_API_URL || "http://localhost:8003";
 
-const memoryClient = new StarkApiClient(
+const memoryClient = new SytraApiClient(
   { baseUrl: API_URL },
   "Memory Management"
 );

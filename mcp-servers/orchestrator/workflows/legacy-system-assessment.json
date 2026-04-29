@@ -7,7 +7,7 @@
     "category": "legacy-modernization",
     "tags": ["legacy", "cobol", "mainframe", "modernization", "assessment", "migration"],
     "estimatedDuration": "20-45 minutes",
-    "author": "Stark MCP Orchestrator"
+    "author": "Sytra MCP Orchestrator"
   },
   "inputs": {
     "legacy_code_path": {

@@ -1,5 +1,5 @@
 {
-  "name": "@stark/mcp-shared",
+  "name": "@sytra/mcp-shared",
   "version": "1.0.0",
   "type": "module",
   "main": "./build/index.js",

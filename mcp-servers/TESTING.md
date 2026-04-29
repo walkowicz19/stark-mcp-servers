@@ -1,6 +1,6 @@
-# Stark MCP Servers - Testing Guide
+# Sytra MCP Servers - Testing Guide
 
-This guide provides comprehensive instructions for testing and verifying MCP servers in the Stark ecosystem.
+This guide provides comprehensive instructions for testing and verifying MCP servers in the Sytra ecosystem.
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ ls mcp-servers/*/build/index.js
 ### 2. Verify Backend Services
 
 ```bash
-# Check all Stark services are running
+# Check all Sytra services are running
 curl http://localhost:8001/health  # Security Guardrails
 curl http://localhost:8002/health  # Code Generation
 curl http://localhost:8003/health  # Memory Management
@@ -102,7 +102,7 @@ npx @modelcontextprotocol/inspector node mcp-servers/orchestrator/build/index.js
 1. **Code Analysis Tool**
    ```json
    {
-     "name": "stark_analyze_code",
+     "name": "sytra_analyze_code",
      "arguments": {
        "code": "function add(a, b) { return a + b; }",
        "language": "javascript",
@@ -114,7 +114,7 @@ npx @modelcontextprotocol/inspector node mcp-servers/orchestrator/build/index.js
 2. **Workflow Execution**
    ```json
    {
-     "name": "stark_execute_workflow",
+     "name": "sytra_execute_workflow",
      "arguments": {
        "workflow_name": "secure-code-generation",
        "context": {
@@ -753,7 +753,7 @@ npx @modelcontextprotocol/inspector node mcp-servers/orchestrator/build/index.js
 
 # Execute workflow test
 {
-  "name": "stark_execute_workflow",
+  "name": "sytra_execute_workflow",
   "arguments": {
     "workflow_name": "secure-code-generation",
     "context": {
@@ -890,7 +890,7 @@ npx @modelcontextprotocol/inspector node mcp-servers/orchestrator/build/index.js
 2. Increase timeout values:
    ```typescript
    // In client.ts
-   const client = new StarkApiClient(
+   const client = new SytraApiClient(
      { baseUrl: API_BASE_URL, timeout: 60000 },
      "Service Name"
    );

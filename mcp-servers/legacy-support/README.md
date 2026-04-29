@@ -1,6 +1,6 @@
-# Stark Legacy Support MCP Server
+# Sytra Legacy Support MCP Server
 
-MCP server for the Stark Legacy Support service, providing advanced tools for parsing, analyzing, translating, and migrating legacy code from COBOL, Fortran, and other mainframe languages. Designed to handle large-scale legacy systems with 700+ files.
+MCP server for the Sytra Legacy Support service, providing advanced tools for parsing, analyzing, translating, and migrating legacy code from COBOL, Fortran, and other mainframe languages. Designed to handle large-scale legacy systems with 700+ files.
 
 ## Features
 
@@ -647,7 +647,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-legacy": {
+    "sytra-legacy": {
       "command": "node",
       "args": ["/path/to/mcp-servers/legacy-support/dist/index.js"],
       "env": {

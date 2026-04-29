@@ -1,5 +1,5 @@
 import { ApiClientConfig, ToolResult } from "./types.js";
-export declare class StarkApiClient {
+export declare class SytraApiClient {
     private client;
     private serviceName;
     constructor(config: ApiClientConfig, serviceName: string);

@@ -7,7 +7,7 @@
     "category": "code-intelligence",
     "tags": ["large-scale", "indexing", "semantic-search", "dependencies", "complexity"],
     "estimatedDuration": "30-60 minutes",
-    "author": "Stark MCP Orchestrator"
+    "author": "Sytra MCP Orchestrator"
   },
   "inputs": {
     "repo_url": {

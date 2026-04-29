@@ -1,6 +1,6 @@
-# Stark SDLC Integration MCP Server
+# Sytra SDLC Integration MCP Server
 
-MCP server for the Stark SDLC Integration service, providing comprehensive software development lifecycle tools including requirements analysis, code review, test generation, and documentation.
+MCP server for the Sytra SDLC Integration service, providing comprehensive software development lifecycle tools including requirements analysis, code review, test generation, and documentation.
 
 ## Features
 
@@ -174,7 +174,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-sdlc": {
+    "sytra-sdlc": {
       "command": "node",
       "args": ["/path/to/mcp-servers/sdlc-integration/dist/index.js"],
       "env": {

@@ -1,7 +1,7 @@
 /**
- * Common types shared across all Stark MCP servers
+ * Common types shared across all Sytra MCP servers
  */
-export interface StarkApiResponse<T = any> {
+export interface SytraApiResponse<T = any> {
     success: boolean;
     data?: T;
     error?: string;

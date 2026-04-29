@@ -1,5 +1,5 @@
 #!/bin/bash
-# Stark MCP Servers Setup Script
+# Sytra MCP Servers Setup Script
 # Installs dependencies and builds all MCP servers
 
 set -e
@@ -177,9 +177,9 @@ if [ $success_count -eq $total_servers ]; then
     print_color "$CYAN" "\nNext steps:"
     print_color "$GRAY" "  1. Configure your IDE (see configs/ directory)"
     print_color "$GRAY" "  2. Update paths in config to match your installation"
-    print_color "$GRAY" "  3. Start the Stark backend services"
+    print_color "$GRAY" "  3. Start the Sytra backend services"
     print_color "$GRAY" "  4. Restart your IDE to load the MCP servers"
-    print_color "$GRAY" "  5. Test with: 'stark analyze this code...'"
+    print_color "$GRAY" "  5. Test with: 'sytra analyze this code...'"
     exit 0
 else
     print_color "$YELLOW" "\nSome servers failed to build. Check the errors above."

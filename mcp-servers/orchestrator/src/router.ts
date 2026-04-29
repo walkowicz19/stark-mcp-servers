@@ -253,15 +253,15 @@ export class IntelligentRouter {
   private getDirectMapping(toolName: string): RoutingDecision | null {
     // Map tool names to services
     const mappings: Record<string, { service: string; tool: string }> = {
-      'stark_analyze_code': { service: 'codegen', tool: 'analyze' },
-      'stark_generate_secure_code': { service: 'codegen', tool: 'generate' },
-      'stark_modernize_legacy': { service: 'legacy', tool: 'modernize' },
-      'stark_optimize_workflow': { service: 'sdlc', tool: 'optimize' },
-      'stark_full_sdlc_cycle': { service: 'sdlc', tool: 'full_cycle' },
-      'stark_intelligent_refactor': { service: 'codegen', tool: 'refactor' },
-      'stark_security_audit': { service: 'security', tool: 'audit' },
-      'stark_performance_tune': { service: 'performance', tool: 'tune' },
-      'stark_memory_optimize': { service: 'memory', tool: 'optimize' },
+      'sytra_analyze_code': { service: 'codegen', tool: 'analyze' },
+      'sytra_generate_secure_code': { service: 'codegen', tool: 'generate' },
+      'sytra_modernize_legacy': { service: 'legacy', tool: 'modernize' },
+      'sytra_optimize_workflow': { service: 'sdlc', tool: 'optimize' },
+      'sytra_full_sdlc_cycle': { service: 'sdlc', tool: 'full_cycle' },
+      'sytra_intelligent_refactor': { service: 'codegen', tool: 'refactor' },
+      'sytra_security_audit': { service: 'security', tool: 'audit' },
+      'sytra_performance_tune': { service: 'performance', tool: 'tune' },
+      'sytra_memory_optimize': { service: 'memory', tool: 'optimize' },
     };
 
     const mapping = mappings[toolName];

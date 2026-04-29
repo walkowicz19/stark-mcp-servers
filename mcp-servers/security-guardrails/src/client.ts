@@ -2,11 +2,11 @@
  * HTTP client for Security Guardrails FastAPI service
  */
 
-import { StarkApiClient, ToolResult } from "../../shared/src/index.js";
+import { SytraApiClient, ToolResult } from "../../shared/src/index.js";
 
 const API_BASE_URL = process.env.SECURITY_API_URL || "http://localhost:8001";
 
-const client = new StarkApiClient(
+const client = new SytraApiClient(
   { baseUrl: API_BASE_URL },
   "Security Guardrails"
 );

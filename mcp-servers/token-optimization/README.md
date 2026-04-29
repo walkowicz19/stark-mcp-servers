@@ -1,6 +1,6 @@
-# Stark Token Optimization MCP Server
+# Sytra Token Optimization MCP Server
 
-MCP server for the Stark Token Optimization service, providing intelligent token counting, context optimization, text compression, and summarization capabilities.
+MCP server for the Sytra Token Optimization service, providing intelligent token counting, context optimization, text compression, and summarization capabilities.
 
 ## Features
 
@@ -149,7 +149,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-token": {
+    "sytra-token": {
       "command": "node",
       "args": ["/path/to/mcp-servers/token-optimization/dist/index.js"],
       "env": {

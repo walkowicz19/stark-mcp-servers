@@ -1,4 +1,4 @@
-# Stark MCP Servers
+# Sytra MCP Servers
 
 **Professional Model Context Protocol (MCP) Servers for AI-Powered Development**
 
@@ -11,9 +11,9 @@ A comprehensive suite of 10 specialized MCP servers that extend AI assistants li
 
 ---
 
-## 🌟 What is Stark?
+## 🌟 What is Sytra?
 
-Stark is a suite of **production-ready MCP servers** that transform AI assistants into comprehensive development platforms. Each server provides specialized tools that can be used independently or orchestrated together for complex workflows.
+Sytra is a suite of **production-ready MCP servers** that transform AI assistants into comprehensive development platforms. Each server provides specialized tools that can be used independently or orchestrated together for complex workflows.
 
 ### Key Features
 
@@ -31,14 +31,14 @@ Stark is a suite of **production-ready MCP servers** that transform AI assistant
 ## 📦 Available MCP Servers
 
 ### 1. 🎼 Orchestrator Server (Recommended)
-**The unified interface to all Stark capabilities**
+**The unified interface to all Sytra capabilities**
 
 - **17 high-level tools** that intelligently coordinate multiple services
 - **Pre-defined workflows** for common development tasks
 - **Intelligent routing** to appropriate specialized servers
 - **Workflow engine** for complex multi-step operations
 
-**Use when:** You want a single, powerful interface to all Stark capabilities
+**Use when:** You want a single, powerful interface to all Sytra capabilities
 
 ### 2. 🔒 Security Guardrails Server
 **Security scanning and compliance**
@@ -153,7 +153,7 @@ Stark is a suite of **production-ready MCP servers** that transform AI assistant
 
 ## 🚀 Enterprise-Scale Capabilities
 
-Stark provides comprehensive tools for handling enterprise-scale systems:
+Sytra provides comprehensive tools for handling enterprise-scale systems:
 
 ### 📊 Large-Scale Code Intelligence (12 Tools)
 
@@ -203,10 +203,10 @@ Store and retrieve massive analysis contexts:
 
 Coordinate complex multi-service workflows:
 
-- `stark_analyze_large_codebase`: Complete 50GB+ repository analysis
-- `stark_analyze_database_system`: Full database assessment
-- `stark_modernize_legacy_system`: Legacy system modernization
-- `stark_full_system_assessment`: Complete system evaluation
+- `sytra_analyze_large_codebase`: Complete 50GB+ repository analysis
+- `sytra_analyze_database_system`: Full database assessment
+- `sytra_modernize_legacy_system`: Legacy system modernization
+- `sytra_full_system_assessment`: Complete system evaluation
 
 ### 📈 Performance Metrics
 
@@ -229,7 +229,7 @@ Coordinate complex multi-service workflows:
 
 ### Multi-IDE Support
 
-Stark MCP servers work with multiple IDEs and AI tools. See the **[IDE Configuration Guide](configs/IDE_CONFIGURATIONS.md)** for detailed setup instructions for:
+Sytra MCP servers work with multiple IDEs and AI tools. See the **[IDE Configuration Guide](configs/IDE_CONFIGURATIONS.md)** for detailed setup instructions for:
 
 - **Claude Desktop** - Native MCP integration
 - **VSCode** (Continue extension) - Full tool access
@@ -251,8 +251,8 @@ Use the automated setup script to build all servers at once:
 **Windows (PowerShell):**
 ```powershell
 # Clone the repository
-git clone https://github.com/walkowicz19/stark-mcp-servers.git
-cd stark-mcp-servers
+git clone https://github.com/walkowicz19/sytra-mcp-servers.git
+cd sytra-mcp-servers
 
 # Run the automated setup script
 powershell -ExecutionPolicy Bypass -File setup-mcp-servers.ps1
@@ -261,8 +261,8 @@ powershell -ExecutionPolicy Bypass -File setup-mcp-servers.ps1
 **Linux/macOS:**
 ```bash
 # Clone the repository
-git clone https://github.com/walkowicz19/stark-mcp-servers.git
-cd stark-mcp-servers
+git clone https://github.com/walkowicz19/sytra-mcp-servers.git
+cd sytra-mcp-servers
 
 # Make the script executable and run it
 chmod +x setup-mcp-servers.sh
@@ -284,8 +284,8 @@ Install just the orchestrator (requires backend services running):
 
 ```bash
 # Clone the repository
-git clone https://github.com/walkowicz19/stark-mcp-servers.git
-cd stark-mcp-servers/mcp-servers/orchestrator
+git clone https://github.com/walkowicz19/sytra-mcp-servers.git
+cd sytra-mcp-servers/mcp-servers/orchestrator
 
 # Install dependencies
 npm install
@@ -294,7 +294,7 @@ npm install
 npm run build
 ```
 
-**⚠️ Important:** The orchestrator requires the Stark backend services to be running. It coordinates calls to specialized services but doesn't include their implementation.
+**⚠️ Important:** The orchestrator requires the Sytra backend services to be running. It coordinates calls to specialized services but doesn't include their implementation.
 
 #### Option 3: Individual Servers
 
@@ -331,10 +331,10 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
       "args": [
-        "/absolute/path/to/stark-mcp-servers/mcp-servers/orchestrator/build/index.js"
+        "/absolute/path/to/sytra-mcp-servers/mcp-servers/orchestrator/build/index.js"
       ],
       "env": {
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -358,19 +358,19 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "stark-security": {
+    "sytra-security": {
       "command": "node",
       "args": [
-        "/absolute/path/to/stark-mcp-servers/mcp-servers/security-guardrails/build/security-guardrails/src/index.js"
+        "/absolute/path/to/sytra-mcp-servers/mcp-servers/security-guardrails/build/security-guardrails/src/index.js"
       ],
       "env": {
         "SECURITY_API_URL": "http://localhost:8008"
       }
     },
-    "stark-codegen": {
+    "sytra-codegen": {
       "command": "node",
       "args": [
-        "/absolute/path/to/stark-mcp-servers/mcp-servers/code-generation/build/code-generation/src/index.js"
+        "/absolute/path/to/sytra-mcp-servers/mcp-servers/code-generation/build/code-generation/src/index.js"
       ],
       "env": {
         "CODEGEN_API_URL": "http://localhost:8002"
@@ -390,7 +390,7 @@ See [`mcp-servers/INSTALLATION.md`](mcp-servers/INSTALLATION.md) for detailed in
 
 ### Verify Installation
 
-Restart Claude Desktop and check that the Stark tools appear in the available tools list.
+Restart Claude Desktop and check that the Sytra tools appear in the available tools list.
 
 ---
 
@@ -400,23 +400,23 @@ Restart Claude Desktop and check that the Stark tools appear in the available to
 
 | Tool | Description |
 |------|-------------|
-| `stark_analyze_code` | Comprehensive code analysis with security and performance checks |
-| `stark_generate_secure_code` | Generate code with automatic security validation |
-| `stark_modernize_legacy` | Modernize legacy code to modern languages |
-| `stark_optimize_workflow` | Optimize development workflows |
-| `stark_full_sdlc_cycle` | Complete SDLC automation from requirements to deployment |
-| `stark_intelligent_refactor` | AI-powered code refactoring |
-| `stark_security_audit` | Complete security audit |
-| `stark_performance_tune` | End-to-end performance optimization |
-| `stark_memory_optimize` | Context and memory optimization |
-| `stark_code_intelligence` | Large-scale codebase intelligence and semantic search |
-| `stark_analyze_large_codebase` | Comprehensive analysis of 50GB+ repositories |
-| `stark_analyze_database_system` | Complete database schema analysis and optimization |
-| `stark_modernize_legacy_system` | Complete legacy system modernization assessment |
-| `stark_full_system_assessment` | Complete system analysis using all capabilities |
-| `stark_execute_workflow` | Execute custom workflows |
-| `stark_list_workflows` | List available pre-defined workflows |
-| `stark_get_workflow_status` | Get workflow execution status |
+| `sytra_analyze_code` | Comprehensive code analysis with security and performance checks |
+| `sytra_generate_secure_code` | Generate code with automatic security validation |
+| `sytra_modernize_legacy` | Modernize legacy code to modern languages |
+| `sytra_optimize_workflow` | Optimize development workflows |
+| `sytra_full_sdlc_cycle` | Complete SDLC automation from requirements to deployment |
+| `sytra_intelligent_refactor` | AI-powered code refactoring |
+| `sytra_security_audit` | Complete security audit |
+| `sytra_performance_tune` | End-to-end performance optimization |
+| `sytra_memory_optimize` | Context and memory optimization |
+| `sytra_code_intelligence` | Large-scale codebase intelligence and semantic search |
+| `sytra_analyze_large_codebase` | Comprehensive analysis of 50GB+ repositories |
+| `sytra_analyze_database_system` | Complete database schema analysis and optimization |
+| `sytra_modernize_legacy_system` | Complete legacy system modernization assessment |
+| `sytra_full_system_assessment` | Complete system analysis using all capabilities |
+| `sytra_execute_workflow` | Execute custom workflows |
+| `sytra_list_workflows` | List available pre-defined workflows |
+| `sytra_get_workflow_status` | Get workflow execution status |
 
 ### Specialized Server Tools (83 Tools Total)
 
@@ -524,7 +524,7 @@ Build a complete REST API for a todo application with tests, docs, and CI/CD set
 ## 📁 Repository Structure
 
 ```
-stark-mcp-package/
+sytra-mcp-servers/
 ├── mcp-servers/
 │   ├── orchestrator/              # Unified orchestrator server
 │   ├── security-guardrails/       # Security scanning and compliance
@@ -551,8 +551,8 @@ stark-mcp-package/
 
 ```bash
 # Clone the repository
-git clone https://github.com/walkowicz19/stark-mcp-package.git
-cd stark-mcp-package
+git clone https://github.com/walkowicz19/sytra-mcp-servers.git
+cd sytra-mcp-servers
 
 # Install dependencies for a specific server
 cd mcp-servers/orchestrator
@@ -596,7 +596,7 @@ npm run type-check
 
 ## 🔐 Security
 
-Stark MCP servers implement security best practices:
+Sytra MCP servers implement security best practices:
 
 - **Input Validation**: All inputs are validated and sanitized
 - **Sandboxed Execution**: Code execution happens in isolated environments
@@ -604,7 +604,7 @@ Stark MCP servers implement security best practices:
 - **Access Control**: Role-based access control support
 - **Audit Logging**: Comprehensive security audit trails
 
-For security issues, please email: security@stark-mcp.io
+For security issues, please email: security@sytra-mcp.io
 
 ---
 
@@ -631,8 +631,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - **📖 Documentation**: [mcp-servers/](mcp-servers/)
-- **🐛 Issues**: [GitHub Issues](https://github.com/walkowicz19/stark-mcp-package/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/walkowicz19/stark-mcp-package/discussions)
+- **🐛 Issues**: [GitHub Issues](https://github.com/walkowicz19/sytra-mcp-servers/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/walkowicz19/sytra-mcp-servers/discussions)
 
 ---
 
@@ -660,7 +660,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 - **GitHub**: [@walkowicz19](https://github.com/walkowicz19)
-- **Repository**: [stark-mcp-package](https://github.com/walkowicz19/stark-mcp-package)
+- **Repository**: [sytra-mcp-servers](https://github.com/walkowicz19/sytra-mcp-servers)
 
 ---
 
@@ -670,6 +670,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **Star us on GitHub** if you find this project useful!
 
-[Get Started](mcp-servers/INSTALLATION.md) • [Report Bug](https://github.com/walkowicz19/stark-mcp-package/issues) • [Request Feature](https://github.com/walkowicz19/stark-mcp-package/issues)
+[Get Started](mcp-servers/INSTALLATION.md) • [Report Bug](https://github.com/walkowicz19/sytra-mcp-servers/issues) • [Request Feature](https://github.com/walkowicz19/sytra-mcp-servers/issues)
 
 </div>

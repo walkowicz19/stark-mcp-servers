@@ -5,7 +5,7 @@ import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextpro
 import { tools } from "./tools.js";
 import { callTool } from "./client.js";
 const server = new Server({
-    name: "stark-code-generation",
+    name: "sytra-code-generation",
     version: "1.0.0",
 }, {
     capabilities: {
@@ -35,7 +35,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
-    console.error("Stark Code Generation MCP server running on stdio");
+    console.error("Sytra Code Generation MCP server running on stdio");
 }
 main().catch((error) => {
     console.error("Fatal error in main():", error);

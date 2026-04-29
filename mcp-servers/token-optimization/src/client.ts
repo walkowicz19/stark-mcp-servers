@@ -1,8 +1,8 @@
-﻿import { StarkApiClient, ToolResult } from '../../shared/src/index.js';
+﻿import { SytraApiClient, ToolResult } from '../../shared/src/index.js';
 
 const API_URL = process.env.TOKEN_API_URL || "http://localhost:8005";
 
-const tokenClient = new StarkApiClient(
+const tokenClient = new SytraApiClient(
   { baseUrl: API_URL },
   "Token Optimization"
 );

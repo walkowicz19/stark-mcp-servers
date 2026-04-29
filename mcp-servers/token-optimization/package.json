@@ -1,7 +1,7 @@
 ﻿{
-    "name":  "@stark/token-optimization-mcp",
+    "name":  "@sytra/token-optimization-mcp",
     "version":  "1.0.0",
-    "description":  "MCP server for Stark Token Optimization service",
+    "description":  "MCP server for Sytra Token Optimization service",
     "type":  "module",
     "main":  "dist/index.js",
     "scripts":  {
@@ -11,12 +11,12 @@
                 },
     "keywords":  [
                      "mcp",
-                     "stark",
+                     "sytra",
                      "token",
                      "optimization",
                      "compression"
                  ],
-    "author":  "Stark Team",
+    "author":  "Sytra Team",
     "license":  "MIT",
     "dependencies":  {
                          "@modelcontextprotocol/sdk":  "^0.5.0"

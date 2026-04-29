@@ -1,5 +1,5 @@
 /**
- * Common types shared across all Stark MCP servers
+ * Common types shared across all Sytra MCP servers
  */
 export {};
 // Made with Bob

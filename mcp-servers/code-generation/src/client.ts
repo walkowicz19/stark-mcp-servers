@@ -1,8 +1,8 @@
-import { StarkApiClient, ToolResult } from "../../shared/src/index.js";
+import { SytraApiClient, ToolResult } from "../../shared/src/index.js";
 
 const API_BASE_URL = process.env.CODEGEN_API_URL || "http://localhost:8002";
 
-const client = new StarkApiClient(
+const client = new SytraApiClient(
   { baseUrl: API_BASE_URL },
   "Code Generation"
 );

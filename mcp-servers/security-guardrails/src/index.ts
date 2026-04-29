@@ -22,7 +22,7 @@ import { callTool } from "./client.js";
  */
 const server = new Server(
   {
-    name: "stark-security-guardrails",
+    name: "sytra-security-guardrails",
     version: "1.0.0",
   },
   {
@@ -68,7 +68,7 @@ async function main() {
   await server.connect(transport);
   
   // Log to stderr to avoid interfering with MCP communication
-  console.error("Stark Security Guardrails MCP server running on stdio");
+  console.error("Sytra Security Guardrails MCP server running on stdio");
 }
 
 main().catch((error) => {

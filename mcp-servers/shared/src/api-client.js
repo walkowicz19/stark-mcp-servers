@@ -1,5 +1,5 @@
 import axios from "axios";
-export class StarkApiClient {
+export class SytraApiClient {
     client;
     serviceName;
     constructor(config, serviceName) {

@@ -1,6 +1,6 @@
-# Stark Schema Intelligence MCP Server
+# Sytra Schema Intelligence MCP Server
 
-MCP server for the Stark Schema Intelligence service, providing comprehensive database schema analysis, automatic relationship detection, query pattern analysis, and documentation generation for multiple database types.
+MCP server for the Sytra Schema Intelligence service, providing comprehensive database schema analysis, automatic relationship detection, query pattern analysis, and documentation generation for multiple database types.
 
 ## Features
 
@@ -440,7 +440,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-schema-intelligence": {
+    "sytra-schema-intelligence": {
       "command": "node",
       "args": ["/path/to/mcp-servers/schema-intelligence/dist/index.js"],
       "env": {

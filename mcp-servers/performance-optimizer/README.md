@@ -1,6 +1,6 @@
-# Stark Performance Optimizer MCP Server
+# Sytra Performance Optimizer MCP Server
 
-MCP server for the Stark Performance Optimizer service, providing comprehensive performance profiling, monitoring, and optimization tools.
+MCP server for the Sytra Performance Optimizer service, providing comprehensive performance profiling, monitoring, and optimization tools.
 
 ## Features
 
@@ -174,7 +174,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-performance": {
+    "sytra-performance": {
       "command": "node",
       "args": ["/path/to/mcp-servers/performance-optimizer/dist/index.js"],
       "env": {

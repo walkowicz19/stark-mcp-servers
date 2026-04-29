@@ -7,7 +7,7 @@
     "category": "database",
     "tags": ["schema", "database", "optimization", "migration", "erd", "relationships"],
     "estimatedDuration": "15-30 minutes",
-    "author": "Stark MCP Orchestrator"
+    "author": "Sytra MCP Orchestrator"
   },
   "inputs": {
     "connection": {

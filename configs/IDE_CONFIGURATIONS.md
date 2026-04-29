@@ -1,6 +1,6 @@
-# IDE Configuration Guide for Stark MCP Servers
+# IDE Configuration Guide for Sytra MCP Servers
 
-This guide provides configuration instructions for integrating Stark MCP servers with various IDEs and AI-powered development tools that support the Model Context Protocol (MCP).
+This guide provides configuration instructions for integrating Sytra MCP servers with various IDEs and AI-powered development tools that support the Model Context Protocol (MCP).
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ This guide provides configuration instructions for integrating Stark MCP servers
 
 ## Overview
 
-The Model Context Protocol (MCP) enables AI assistants to interact with external tools and services. Stark MCP servers expose 100 specialized tools across 10 integrated servers, providing comprehensive AI-powered software development capabilities.
+The Model Context Protocol (MCP) enables AI assistants to interact with external tools and services. Sytra MCP servers expose 100 specialized tools across 10 integrated servers, providing comprehensive AI-powered software development capabilities.
 
 All configurations follow a similar pattern but may have IDE-specific requirements for file location, format, or additional settings.
 
@@ -85,7 +85,7 @@ See the complete example in [`claude_desktop_config.json`](./claude_desktop_conf
 
 **Verification:**
 
-After restarting Claude Desktop, you should see the Stark MCP servers listed in the available tools. Test with:
+After restarting Claude Desktop, you should see the Sytra MCP servers listed in the available tools. Test with:
 ```
 Can you list the available MCP tools?
 ```
@@ -118,9 +118,9 @@ Can you list the available MCP tools?
     }
   ],
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
-      "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+      "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
       "env": {
         "SECURITY_API_URL": "http://localhost:8001",
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -146,7 +146,7 @@ See [`configs/vscode-continue.json`](./configs/vscode-continue.json) for all 10 
 1. Open Continue sidebar in VSCode
 2. Start a new chat
 3. Type `@` to see available tools
-4. Stark MCP tools should appear in the list
+4. Sytra MCP tools should appear in the list
 
 ---
 
@@ -170,9 +170,9 @@ See [`configs/vscode-continue.json`](./configs/vscode-continue.json) for all 10 
 ```json
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
-      "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+      "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
       "env": {
         "SECURITY_API_URL": "http://localhost:8001",
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -197,7 +197,7 @@ See [`configs/cursor.json`](./configs/cursor.json) for all 10 servers.
 
 1. Open Cursor AI chat (`Ctrl+L` / `Cmd+L`)
 2. Type `@` to see available tools
-3. Stark MCP tools should be available
+3. Sytra MCP tools should be available
 
 **Cursor-Specific Notes:**
 
@@ -228,9 +228,9 @@ See [`configs/cursor.json`](./configs/cursor.json) for all 10 servers.
 {
   "mcp": {
     "servers": {
-      "stark-orchestrator": {
+      "sytra-orchestrator": {
         "command": "node",
-        "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+        "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
         "env": {
           "SECURITY_API_URL": "http://localhost:8001",
           "CODEGEN_API_URL": "http://localhost:8002",
@@ -256,7 +256,7 @@ See [`configs/windsurf.json`](./configs/windsurf.json) for all 10 servers.
 
 1. Open Windsurf AI assistant
 2. Check available tools in the tools panel
-3. Test with a simple query using Stark tools
+3. Test with a simple query using Sytra tools
 
 **Windsurf-Specific Notes:**
 
@@ -289,9 +289,9 @@ See [`configs/windsurf.json`](./configs/windsurf.json) for all 10 servers.
       "api_key": "your-api-key"
     },
     "mcp_servers": {
-      "stark-orchestrator": {
+      "sytra-orchestrator": {
         "command": "node",
-        "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+        "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
         "env": {
           "SECURITY_API_URL": "http://localhost:8001",
           "CODEGEN_API_URL": "http://localhost:8002",
@@ -317,7 +317,7 @@ See [`configs/zed.json`](./configs/zed.json) for all 10 servers.
 
 1. Open Zed Assistant panel
 2. Start a new conversation
-3. Stark MCP tools should be available automatically
+3. Sytra MCP tools should be available automatically
 
 **Zed-Specific Notes:**
 
@@ -333,17 +333,17 @@ See [`configs/zed.json`](./configs/zed.json) for all 10 servers.
 
 **Absolute Paths (Recommended for IDE configs):**
 ```json
-"args": ["/home/user/projects/stark-mcp/mcp-servers/orchestrator/build/index.js"]
+"args": ["/home/user/projects/sytra-mcp/mcp-servers/orchestrator/build/index.js"]
 ```
 
 **Windows Absolute Paths:**
 ```json
-"args": ["C:/Users/YourName/Documents/stark-mcp/mcp-servers/orchestrator/build/index.js"]
+"args": ["C:/Users/YourName/Documents/sytra-mcp/mcp-servers/orchestrator/build/index.js"]
 ```
 
 **macOS/Linux Absolute Paths:**
 ```json
-"args": ["/Users/yourname/projects/stark-mcp/mcp-servers/orchestrator/build/index.js"]
+"args": ["/Users/yourname/projects/sytra-mcp/mcp-servers/orchestrator/build/index.js"]
 ```
 
 ### Path Best Practices
@@ -360,14 +360,14 @@ Some IDEs support environment variable expansion:
 
 ```json
 {
-  "args": ["${HOME}/projects/stark-mcp/mcp-servers/orchestrator/build/index.js"]
+  "args": ["${HOME}/projects/sytra-mcp/mcp-servers/orchestrator/build/index.js"]
 }
 ```
 
 Or on Windows:
 ```json
 {
-  "args": ["${USERPROFILE}/Documents/stark-mcp/mcp-servers/orchestrator/build/index.js"]
+  "args": ["${USERPROFILE}/Documents/sytra-mcp/mcp-servers/orchestrator/build/index.js"]
 }
 ```
 
@@ -387,7 +387,7 @@ Or on Windows:
 **Setup Steps:**
 
 1. Access IBM Bob's MCP configuration interface
-2. Add Stark MCP servers using the provided configuration
+2. Add Sytra MCP servers using the provided configuration
 3. Update file paths to match your installation directory
 4. Save and restart IBM Bob
 
@@ -396,9 +396,9 @@ Or on Windows:
 ```json
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
-      "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+      "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
       "env": {
         "SECURITY_API_URL": "http://localhost:8001",
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -423,7 +423,7 @@ See [`ibm-bob.json`](./ibm-bob.json) for all 10 servers.
 
 1. Open IBM Bob interface
 2. Check available MCP tools in the tools panel
-3. Test with a query using Stark tools
+3. Test with a query using Sytra tools
 
 **IBM Bob-Specific Notes:**
 
@@ -442,7 +442,7 @@ See [`ibm-bob.json`](./ibm-bob.json) for all 10 servers.
 
 1. Access Antigravity's configuration interface
 2. Navigate to MCP server settings
-3. Add Stark MCP servers configuration
+3. Add Sytra MCP servers configuration
 4. Update all file paths to match your installation
 5. Apply changes and restart Antigravity
 
@@ -451,9 +451,9 @@ See [`ibm-bob.json`](./ibm-bob.json) for all 10 servers.
 ```json
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
-      "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+      "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
       "env": {
         "SECURITY_API_URL": "http://localhost:8001",
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -477,7 +477,7 @@ See [`antigravity.json`](./antigravity.json) for all 10 servers.
 **Verification:**
 
 1. Open Antigravity AI interface
-2. Verify Stark MCP tools are listed
+2. Verify Sytra MCP tools are listed
 3. Test tool functionality with a simple query
 
 **Antigravity-Specific Notes:**
@@ -497,7 +497,7 @@ See [`antigravity.json`](./antigravity.json) for all 10 servers.
 
 1. Open Kiro settings or configuration panel
 2. Locate MCP server configuration section
-3. Add Stark MCP servers using the provided template
+3. Add Sytra MCP servers using the provided template
 4. Update file paths to your installation directory
 5. Save and reload Kiro
 
@@ -506,9 +506,9 @@ See [`antigravity.json`](./antigravity.json) for all 10 servers.
 ```json
 {
   "mcpServers": {
-    "stark-orchestrator": {
+    "sytra-orchestrator": {
       "command": "node",
-      "args": ["/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"],
+      "args": ["/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"],
       "env": {
         "SECURITY_API_URL": "http://localhost:8001",
         "CODEGEN_API_URL": "http://localhost:8002",
@@ -532,8 +532,8 @@ See [`kiro.json`](./kiro.json) for all 10 servers.
 **Verification:**
 
 1. Open Kiro assistant
-2. Check that Stark MCP tools appear in available tools
-3. Test with a simple query using Stark capabilities
+2. Check that Sytra MCP tools appear in available tools
+3. Test with a simple query using Sytra capabilities
 
 **Kiro-Specific Notes:**
 
@@ -543,7 +543,7 @@ See [`kiro.json`](./kiro.json) for all 10 servers.
 
 ### Required Environment Variables
 
-Each Stark MCP server requires specific API URLs to connect to backend services:
+Each Sytra MCP server requires specific API URLs to connect to backend services:
 
 | Server | Environment Variable | Default Port |
 |--------|---------------------|--------------|
@@ -597,8 +597,8 @@ For remote or containerized backends:
 ```json
 {
   "env": {
-    "SECURITY_API_URL": "http://stark-backend.example.com:8001",
-    "CODEGEN_API_URL": "http://stark-backend.example.com:8002"
+    "SECURITY_API_URL": "http://sytra-backend.example.com:8001",
+    "CODEGEN_API_URL": "http://sytra-backend.example.com:8002"
   }
 }
 ```
@@ -745,4 +745,4 @@ Complete, copy-paste ready configuration files are available in this directory:
 - [`antigravity.json`](./antigravity.json) - Antigravity AI tool
 - [`kiro.json`](./kiro.json) - Kiro AI assistant
 
-Each file includes all 10 Stark MCP servers with proper configuration. Update the file paths to match your installation directory.
+Each file includes all 10 Sytra MCP servers with proper configuration. Update the file paths to match your installation directory.

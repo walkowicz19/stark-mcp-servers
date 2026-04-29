@@ -71,7 +71,7 @@ Updated `mcp-servers/orchestrator/src/clients/intelligence.ts`:
 
 Updated `mcp-servers/orchestrator/src/tools.ts`:
 
-- Added `stark_code_intelligence` high-level tool
+- Added `sytra_code_intelligence` high-level tool
 - Unified interface for all code intelligence operations
 - Supports 6 operation types: index, search, dependencies, references, complexity, status
 
@@ -193,7 +193,7 @@ New endpoints added:
 
 ```typescript
 {
-  "tool": "stark_code_intelligence",
+  "tool": "sytra_code_intelligence",
   "arguments": {
     "operation": "search",
     "repo_id": "uuid-from-indexing",
@@ -298,4 +298,4 @@ The MCP server and orchestrator are ready. The following backend components need
 
 ## Conclusion
 
-The Code Intelligence capabilities have been successfully integrated into the Stark MCP ecosystem. The MCP server and orchestrator are production-ready and provide a clean, type-safe interface for large-scale codebase operations. The backend implementation can now proceed following the architecture specified in `docs/LARGE_SCALE_ARCHITECTURE.md`.
+The Code Intelligence capabilities have been successfully integrated into the Sytra MCP ecosystem. The MCP server and orchestrator are production-ready and provide a clean, type-safe interface for large-scale codebase operations. The backend implementation can now proceed following the architecture specified in `docs/LARGE_SCALE_ARCHITECTURE.md`.

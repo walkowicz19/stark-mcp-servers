@@ -1,14 +1,14 @@
-# Stark MCP Servers
+# Sytra MCP Servers
 
-Model Context Protocol (MCP) servers for the Stark AI system. These servers expose Stark's capabilities as tools that can be used in AI assistants and IDEs that support the MCP protocol.
+Model Context Protocol (MCP) servers for the Sytra AI system. These servers expose Sytra's capabilities as tools that can be used in AI assistants and IDEs that support the MCP protocol.
 
 ## Overview
 
-The Stark MCP ecosystem provides **100 specialized tools** across **10 integrated servers**, enabling comprehensive AI-powered software development, analysis, and modernization capabilities.
+The Sytra MCP ecosystem provides **100 specialized tools** across **10 integrated servers**, enabling comprehensive AI-powered software development, analysis, and modernization capabilities.
 
 ### Multi-IDE Support
 
-Stark MCP servers work with multiple IDEs and AI tools:
+Sytra MCP servers work with multiple IDEs and AI tools:
 - **Claude Desktop** - Full support with native MCP integration
 - **VSCode** (Continue extension) - Complete tool access
 - **Cursor IDE** - Native MCP support
@@ -75,7 +75,7 @@ For comprehensive testing instructions, see the [Testing Guide](TESTING.md).
 
 ### IDE Setup
 
-Stark MCP servers can be configured for multiple IDEs and AI tools. Each IDE has specific configuration requirements:
+Sytra MCP servers can be configured for multiple IDEs and AI tools. Each IDE has specific configuration requirements:
 
 - **Quick Start**: Copy configuration from [`../configs/`](../configs/) directory for your IDE
 - **Detailed Instructions**: See [IDE Configuration Guide](../configs/IDE_CONFIGURATIONS.md)
@@ -119,4 +119,4 @@ For additional help:
 - Review individual server READMEs in their respective directories
 - Check the documentation guides listed above
 - Review service logs for detailed error information
-- Running Stark FastAPI services
+- Running Sytra FastAPI services

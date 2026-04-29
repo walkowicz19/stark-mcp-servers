@@ -1,6 +1,6 @@
-# Stark Memory Management MCP Server
+# Sytra Memory Management MCP Server
 
-MCP server for the Stark Memory Management service, providing intelligent memory storage, retrieval, and context management capabilities with support for large-scale codebases, database schemas, and legacy systems.
+MCP server for the Sytra Memory Management service, providing intelligent memory storage, retrieval, and context management capabilities with support for large-scale codebases, database schemas, and legacy systems.
 
 ## Features
 
@@ -926,7 +926,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-memory": {
+    "sytra-memory": {
       "command": "node",
       "args": ["/path/to/mcp-servers/memory-management/dist/index.js"],
       "env": {

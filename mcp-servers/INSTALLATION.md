@@ -1,12 +1,12 @@
-# Stark MCP Servers - Installation Guide
+# Sytra MCP Servers - Installation Guide
 
-This guide will help you install and configure all Stark MCP servers for use with Claude Desktop or other MCP clients.
+This guide will help you install and configure all Sytra MCP servers for use with Claude Desktop or other MCP clients.
 
 ## Prerequisites
 
 - Node.js 18 or higher
 - npm or yarn
-- Running Stark FastAPI services (ports 8001-8009)
+- Running Sytra FastAPI services (ports 8001-8009)
 
 ## Quick Start
 
@@ -61,9 +61,9 @@ cd ../legacy-support && npm install && npm run build
 cd ../performance-optimizer && npm install && npm run build
 ```
 
-### 3. Start Stark Services
+### 3. Start Sytra Services
 
-Ensure all Stark FastAPI services are running:
+Ensure all Sytra FastAPI services are running:
 
 ```bash
 # From the project root
@@ -144,7 +144,7 @@ cd services/performance-optimizer && uvicorn src.main:app --port 8009
 
 ## Verification
 
-After restarting Claude Desktop, you should see the Stark MCP servers available in the tools menu. You can verify by:
+After restarting Claude Desktop, you should see the Sytra MCP servers available in the tools menu. You can verify by:
 
 1. Opening Claude Desktop
 2. Looking for the MCP server indicators in the UI
@@ -168,7 +168,7 @@ After restarting Claude Desktop, you should see the Stark MCP servers available 
 
 ### Connection Errors
 
-1. Verify Stark services are running:
+1. Verify Sytra services are running:
    ```bash
    curl http://localhost:8001/health
    curl http://localhost:8002/health

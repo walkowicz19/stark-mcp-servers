@@ -1,10 +1,10 @@
-# Stark Orchestrator MCP Server
+# Sytra Orchestrator MCP Server
 
-The Stark Orchestrator is a powerful Model Context Protocol (MCP) server that provides intelligent routing and workflow orchestration capabilities for the Stark AI development platform. It unifies 9 specialized services into a cohesive system with 16 high-level tools and pre-defined workflows.
+The Sytra Orchestrator is a powerful Model Context Protocol (MCP) server that provides intelligent routing and workflow orchestration capabilities for the Sytra AI development platform. It unifies 9 specialized services into a cohesive system with 16 high-level tools and pre-defined workflows.
 
 ## Overview
 
-The Orchestrator acts as the central coordination layer for the Stark platform, providing:
+The Orchestrator acts as the central coordination layer for the Sytra platform, providing:
 
 - **Intelligent Routing**: Automatically routes requests to appropriate services based on content analysis
 - **Workflow Orchestration**: Executes complex multi-step workflows with dependency resolution
@@ -38,7 +38,7 @@ The Orchestrator coordinates the following 9 specialized services:
 
 - Node.js 18.0.0 or higher
 - npm or yarn
-- All 8 Stark services running (or accessible via network)
+- All 8 Sytra services running (or accessible via network)
 
 ### Setup
 
@@ -86,7 +86,7 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "stark": {
+    "sytra": {
       "command": "node",
       "args": [
         "C:/path/to/mcp-servers/orchestrator/build/index.js"
@@ -110,7 +110,7 @@ Add to your `claude_desktop_config.json`:
 
 The Orchestrator provides 16 unified high-level tools:
 
-### 1. `stark_analyze_code`
+### 1. `sytra_analyze_code`
 
 Comprehensive code analysis combining security, performance, and complexity metrics.
 
@@ -130,7 +130,7 @@ Comprehensive code analysis combining security, performance, and complexity metr
 }
 ```
 
-### 2. `stark_generate_secure_code`
+### 2. `sytra_generate_secure_code`
 
 Generate code with automatic security validation and best practices.
 
@@ -141,7 +141,7 @@ Generate code with automatic security validation and best practices.
 - `includeTests` (boolean): Generate unit tests (default: true)
 - `includeDocumentation` (boolean): Generate documentation (default: true)
 
-### 3. `stark_modernize_legacy`
+### 3. `sytra_modernize_legacy`
 
 Modernize legacy code with translation and optimization.
 
@@ -151,7 +151,7 @@ Modernize legacy code with translation and optimization.
 - `targetLanguage` (string, required): Target language (python, java, javascript, typescript)
 - `includeMigrationPlan` (boolean): Generate migration plan (default: true)
 
-### 4. `stark_optimize_workflow`
+### 4. `sytra_optimize_workflow`
 
 Optimize development workflow with intelligent suggestions.
 
@@ -160,7 +160,7 @@ Optimize development workflow with intelligent suggestions.
 - `currentMetrics` (object): Current performance metrics
 - `optimizationGoals` (array): Optimization goals
 
-### 5. `stark_full_sdlc_cycle`
+### 5. `sytra_full_sdlc_cycle`
 
 Execute complete SDLC from requirements to deployment.
 
@@ -170,7 +170,7 @@ Execute complete SDLC from requirements to deployment.
 - `includeDeployment` (boolean): Include deployment config
 - `targetEnvironment` (string): Target deployment environment
 
-### 6. `stark_intelligent_refactor`
+### 6. `sytra_intelligent_refactor`
 
 AI-powered code refactoring with best practices.
 
@@ -180,7 +180,7 @@ AI-powered code refactoring with best practices.
 - `refactoringGoals` (array): Refactoring goals
 - `preserveTests` (boolean): Preserve existing tests (default: true)
 
-### 7. `stark_security_audit`
+### 7. `sytra_security_audit`
 
 Complete security audit with vulnerability detection.
 
@@ -190,7 +190,7 @@ Complete security audit with vulnerability detection.
 - `auditDepth` (string): Audit depth - basic, standard, or comprehensive
 - `includeRemediation` (boolean): Include remediation suggestions (default: true)
 
-### 8. `stark_performance_tune`
+### 8. `sytra_performance_tune`
 
 End-to-end performance optimization and tuning.
 
@@ -200,7 +200,7 @@ End-to-end performance optimization and tuning.
 - `targetMetrics` (object): Target performance metrics
 - `optimizationLevel` (string): Optimization level - conservative, balanced, or aggressive
 
-### 9. `stark_memory_optimize`
+### 9. `sytra_memory_optimize`
 
 Context and memory optimization for AI interactions.
 
@@ -209,7 +209,7 @@ Context and memory optimization for AI interactions.
 - `maxTokens` (number): Maximum token count
 - `preserveImportantInfo` (boolean): Preserve important information (default: true)
 
-### 10. `stark_analyze_large_codebase`
+### 10. `sytra_analyze_large_codebase`
 
 **NEW** - Comprehensive analysis of 50GB+ repositories with 700+ files using incremental indexing and semantic search.
 
@@ -232,7 +232,7 @@ Context and memory optimization for AI interactions.
 }
 ```
 
-### 11. `stark_analyze_database_system`
+### 11. `sytra_analyze_database_system`
 
 **NEW** - Complete database schema analysis and optimization with relationship detection and query pattern analysis.
 
@@ -263,7 +263,7 @@ Context and memory optimization for AI interactions.
 }
 ```
 
-### 12. `stark_modernize_legacy_system`
+### 12. `sytra_modernize_legacy_system`
 
 **NEW** - Complete legacy system modernization assessment with business logic extraction and migration planning.
 
@@ -289,7 +289,7 @@ Context and memory optimization for AI interactions.
 }
 ```
 
-### 13. `stark_full_system_assessment`
+### 13. `sytra_full_system_assessment`
 
 **NEW** - Complete system analysis using all capabilities including code intelligence, database analysis, security audit, and performance profiling.
 
@@ -321,7 +321,7 @@ Context and memory optimization for AI interactions.
 }
 ```
 
-### 14. `stark_execute_workflow`
+### 14. `sytra_execute_workflow`
 
 Execute a custom or pre-defined workflow.
 
@@ -331,7 +331,7 @@ Execute a custom or pre-defined workflow.
 - `inputs` (object, required): Workflow input parameters
 - `async` (boolean): Execute asynchronously (default: false)
 
-### 15. `stark_list_workflows`
+### 15. `sytra_list_workflows`
 
 List available pre-defined workflows.
 
@@ -339,7 +339,7 @@ List available pre-defined workflows.
 - `category` (string): Filter by category
 - `tags` (array): Filter by tags
 
-### 16. `stark_get_workflow_status`
+### 16. `sytra_get_workflow_status`
 
 Get status of a running workflow.
 
@@ -647,4 +647,4 @@ MIT License - See LICENSE file for details
 
 ## Support
 
-For issues, questions, or contributions, please visit the Stark project repository.
+For issues, questions, or contributions, please visit the Sytra project repository.

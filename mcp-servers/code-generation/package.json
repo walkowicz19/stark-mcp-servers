@@ -1,10 +1,10 @@
 {
-  "name": "@stark/code-generation-mcp",
+  "name": "@sytra/code-generation-mcp",
   "version": "1.0.0",
-  "description": "MCP server for Stark Code Generation service",
+  "description": "MCP server for Sytra Code Generation service",
   "type": "module",
   "bin": {
-    "stark-codegen-mcp": "./build/index.js"
+    "sytra-codegen-mcp": "./build/index.js"
   },
   "scripts": {
     "build": "tsc",

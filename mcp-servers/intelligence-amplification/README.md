@@ -1,6 +1,6 @@
-# Stark Intelligence Amplification MCP Server
+# Sytra Intelligence Amplification MCP Server
 
-MCP server for the Stark Intelligence Amplification service, providing advanced AI capabilities including prompt optimization, RAG, chain-of-thought reasoning, intelligent model routing, and large-scale code intelligence.
+MCP server for the Sytra Intelligence Amplification service, providing advanced AI capabilities including prompt optimization, RAG, chain-of-thought reasoning, intelligent model routing, and large-scale code intelligence.
 
 ## Features
 
@@ -307,7 +307,7 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "stark-intelligence": {
+    "sytra-intelligence": {
       "command": "node",
       "args": ["/path/to/mcp-servers/intelligence-amplification/dist/index.js"],
       "env": {

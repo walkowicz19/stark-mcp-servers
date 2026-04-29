@@ -1,6 +1,6 @@
 # IDE Configuration Files
 
-This directory contains ready-to-use configuration files for integrating Stark MCP servers with various IDEs and AI-powered development tools.
+This directory contains ready-to-use configuration files for integrating Sytra MCP servers with various IDEs and AI-powered development tools.
 
 ## Available Configurations
 
@@ -19,7 +19,7 @@ This directory contains ready-to-use configuration files for integrating Stark M
 
 1. **Choose your IDE** - Select the configuration file for your IDE
 2. **Copy the configuration** - Copy the entire contents of the file
-3. **Update paths** - Replace `/absolute/path/to/stark-mcp/` with your actual installation path
+3. **Update paths** - Replace `/absolute/path/to/sytra-mcp/` with your actual installation path
 4. **Apply configuration** - Paste into your IDE's MCP configuration file
 5. **Restart IDE** - Restart your IDE to load the MCP servers
 
@@ -28,35 +28,35 @@ This directory contains ready-to-use configuration files for integrating Stark M
 All configuration files use placeholder paths that **must be updated**:
 
 ```json
-"/absolute/path/to/stark-mcp/mcp-servers/orchestrator/build/index.js"
+"/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/build/index.js"
 ```
 
 ### Windows Example
 ```json
-"C:/Users/YourName/Documents/stark-mcp/mcp-servers/orchestrator/build/index.js"
+"C:/Users/YourName/Documents/sytra-mcp/mcp-servers/orchestrator/build/index.js"
 ```
 
 ### macOS/Linux Example
 ```json
-"/Users/yourname/projects/stark-mcp/mcp-servers/orchestrator/build/index.js"
+"/Users/yourname/projects/sytra-mcp/mcp-servers/orchestrator/build/index.js"
 ```
 
 **Important:** Use forward slashes (`/`) even on Windows for better compatibility.
 
 ## Configuration Structure
 
-Each configuration includes all 10 Stark MCP servers:
+Each configuration includes all 10 Sytra MCP servers:
 
-1. **stark-orchestrator** - Intelligent routing and workflow orchestration
-2. **stark-intelligence** - Prompt optimization and code intelligence
-3. **stark-schema** - Database schema analysis and optimization
-4. **stark-security** - Security scanning and compliance
-5. **stark-codegen** - Code generation and validation
-6. **stark-memory** - Context management and storage
-7. **stark-tokens** - Token optimization and compression
-8. **stark-sdlc** - SDLC integration and documentation
-9. **stark-legacy** - Legacy code modernization
-10. **stark-performance** - Performance profiling and optimization
+1. **sytra-orchestrator** - Intelligent routing and workflow orchestration
+2. **sytra-intelligence** - Prompt optimization and code intelligence
+3. **sytra-schema** - Database schema analysis and optimization
+4. **sytra-security** - Security scanning and compliance
+5. **sytra-codegen** - Code generation and validation
+6. **sytra-memory** - Context management and storage
+7. **sytra-tokens** - Token optimization and compression
+8. **sytra-sdlc** - SDLC integration and documentation
+9. **sytra-legacy** - Legacy code modernization
+10. **sytra-performance** - Performance profiling and optimization
 
 ## Environment Variables
 
@@ -117,8 +117,8 @@ After configuration:
 
 3. **Test in IDE:**
    - Open your IDE's AI assistant
-   - Look for Stark MCP tools in the available tools list
-   - Try a simple query using a Stark tool
+   - Look for Sytra MCP tools in the available tools list
+   - Try a simple query using a Sytra tool
 
 ## Troubleshooting
 

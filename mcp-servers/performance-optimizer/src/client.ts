@@ -1,8 +1,8 @@
-﻿import { StarkApiClient, ToolResult } from '../../shared/src/index.js';
+﻿import { SytraApiClient, ToolResult } from '../../shared/src/index.js';
 
 const API_URL = process.env.PERFORMANCE_API_URL || "http://localhost:8009";
 
-const performanceClient = new StarkApiClient(
+const performanceClient = new SytraApiClient(
   { baseUrl: API_URL },
   "Performance Optimizer"
 );

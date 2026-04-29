@@ -1,6 +1,6 @@
-# Stark MCP Servers - Usage Guide
+# Sytra MCP Servers - Usage Guide
 
-This guide provides examples of how to use each Stark MCP server through Claude Desktop or other MCP clients.
+This guide provides examples of how to use each Sytra MCP server through Claude Desktop or other MCP clients.
 
 ## Orchestrator
 

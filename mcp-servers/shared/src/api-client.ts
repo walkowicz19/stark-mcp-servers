@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
-import { StarkApiResponse, ApiClientConfig, ToolResult } from "./types.js";
+import { SytraApiResponse, ApiClientConfig, ToolResult } from "./types.js";
 
-export class StarkApiClient {
+export class SytraApiClient {
   private client: AxiosInstance;
   private serviceName: string;
 
@@ -22,7 +22,7 @@ export class StarkApiClient {
     data?: any
   ): Promise<ToolResult> {
     try {
-      const response = await this.client.request<StarkApiResponse<T>>({
+      const response = await this.client.request<SytraApiResponse<T>>({
         url: endpoint,
         method,
         data,
