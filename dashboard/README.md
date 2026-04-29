@@ -4,11 +4,14 @@ A comprehensive, modern web dashboard for managing and monitoring the Sytra MCP 
 
 ## Features
 
-### 🎨 Design
+### 🎨 Design & UI Improvements
 - **Art Deco Inspired**: Elegant, professional design with Art Deco typography and styling
 - **Light Theme**: Clean, easy-on-the-eyes light color scheme
 - **Responsive**: Works seamlessly on desktop, tablet, and mobile devices
 - **Smooth Animations**: Polished transitions and interactions
+- **Bootstrap Icons**: Modern, consistent iconography throughout the interface
+- **Optimized Header**: Reduced header height for more content space
+- **Consistent Cards**: Uniform card styling across all sections
 
 ### 📊 Core Functionality
 
@@ -65,7 +68,17 @@ A comprehensive, modern web dashboard for managing and monitoring the Sytra MCP 
 - Memory usage statistics
 - Access count tracking
 
-#### 8. MCP Server Health Monitoring
+#### 8. Security Management ⭐ NEW
+- **Admin Password Configuration**: Set and update admin password securely
+- **Password Strength Indicator**: Real-time feedback on password strength
+- **Password Prompts**: Automatic prompts for dangerous actions
+- **Session Management**: "Remember for this session" option (1-hour expiry)
+- **Audit Logging**: Complete security event tracking
+- **Rate Limiting**: Protection against brute force attacks (5 attempts per 15 minutes)
+
+**Important:** Admin passwords are configured exclusively through the dashboard and are **never stored in MCP config files**.
+
+#### 9. MCP Server Health Monitoring
 - Real-time health checks for all 9 MCP servers
 - Performance metrics (response time, throughput)
 - Error rate tracking
@@ -146,6 +159,7 @@ Use the top navigation bar to switch between sections:
 - **Logs**: View system logs and activity
 - **Credentials**: Manage encrypted credentials
 - **Memory**: Visualize memory graph
+- **Security**: Configure admin password and view audit logs ⭐ NEW
 - **Health**: Monitor MCP server health
 
 ### WebSocket Connection
@@ -197,6 +211,42 @@ All API endpoints are available at `http://localhost:3000/api/`:
 
 ## Security
 
+### Admin Password Configuration ⭐ NEW
+
+**Important:** Admin passwords are configured exclusively through the dashboard interface and are **never stored in MCP config files**.
+
+#### Setting Up Admin Password
+
+1. Navigate to the **Security** section in the dashboard
+2. Enter a strong password (minimum 8 characters recommended)
+3. Confirm the password
+4. Click "Set Admin Password"
+5. Password is securely hashed using PBKDF2 with 100,000 iterations
+
+#### Password Strength Requirements
+
+- **Minimum**: 8 characters
+- **Recommended**: 12+ characters with mix of:
+  - Uppercase letters
+  - Lowercase letters
+  - Numbers
+  - Special characters
+
+#### Password Prompts for Dangerous Actions
+
+The system automatically prompts for admin password when:
+- File operations occur outside the workspace directory
+- Dangerous commands are executed
+- System paths are accessed
+- Sensitive files are modified
+
+**Features:**
+- Clear description of the action being attempted
+- Display of target file/command
+- Reason for security prompt
+- "Remember for this session" option (1-hour expiry)
+- Allow/Deny buttons
+
 ### Credential Encryption
 - All credentials are encrypted using **AES-256-GCM**
 - Master key can be set via environment variable
@@ -205,16 +255,19 @@ All API endpoints are available at `http://localhost:3000/api/`:
 
 ### API Security
 - **Helmet.js**: Security headers
-- **Rate Limiting**: 100 requests per 15 minutes per IP
+- **Rate Limiting**: 100 requests per 15 minutes per IP (admin endpoints: 5 attempts per 15 minutes)
 - **CORS**: Configurable origin restrictions
-- **Audit Logging**: All actions logged with timestamps
+- **Audit Logging**: All actions logged with timestamps and IP addresses
 
 ### Best Practices
-1. Set a strong `MASTER_KEY` in production
-2. Use HTTPS in production (self-signed cert included)
-3. Restrict CORS origins in production
-4. Regularly review audit logs
-5. Keep credentials encrypted at rest
+1. **Set a strong admin password** through the Security section
+2. Set a strong `MASTER_KEY` in production for credential encryption
+3. Use HTTPS in production (self-signed cert included)
+4. Restrict CORS origins in production
+5. Regularly review audit logs in the Security section
+6. Keep credentials encrypted at rest
+7. Use "Remember for this session" sparingly and only on trusted devices
+8. Update admin password periodically
 
 ## Development
 

@@ -2,6 +2,10 @@
 
 This directory contains ready-to-use configuration files for integrating Sytra MCP servers with various IDEs and AI-powered development tools.
 
+## ⚠️ Important Security Note
+
+**Admin passwords should NEVER be stored in MCP configuration files.** All password configuration is done exclusively through the Sytra Dashboard's Security section. MCP config files only contain server paths and environment variables for API endpoints.
+
 ## Available Configurations
 
 | File | IDE/Tool | Description |
@@ -82,6 +86,16 @@ The **sytra-orchestrator** server requires an additional environment variable:
   - See [Workflows Configuration Guide](../mcp-servers/orchestrator/WORKFLOWS_CONFIGURATION.md) for details
 
 If your backend services run on different ports, update the `env` section in each server configuration.
+
+### Security Configuration
+
+**Important:** Do NOT add passwords or sensitive credentials to these configuration files.
+
+- **Admin passwords**: Configure via Dashboard → Security section
+- **API keys**: Store in environment variables or use the Dashboard's Credential Manager
+- **Sensitive data**: Never commit to version control
+
+See [`SECURITY_IMPLEMENTATION.md`](../SECURITY_IMPLEMENTATION.md) for security best practices.
 
 ## IDE-Specific Notes
 

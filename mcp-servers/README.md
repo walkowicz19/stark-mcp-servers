@@ -39,8 +39,9 @@ See the [IDE Configuration Guide](../configs/IDE_CONFIGURATIONS.md) for setup in
 - **Schema Intelligence**: Database schema analysis, optimization, and migration planning
 - **Legacy Modernization**: Comprehensive support for COBOL, Fortran, and other legacy languages
 - **Workflow Orchestration**: Pre-built workflows for common development scenarios
-- **Security & Compliance**: Built-in security scanning and compliance checking
+- **Security & Compliance**: Built-in security scanning, admin password protection, dangerous action detection, and compliance checking
 - **Performance Optimization**: Profiling, benchmarking, and optimization recommendations
+- **Dashboard Integration**: Web-based monitoring and management with real-time updates
 
 ## Installation
 
@@ -102,6 +103,8 @@ All configurations require updating file paths to match your installation direct
 
 - **[Installation Guide](INSTALLATION.md)** - Complete setup instructions for all servers
 - **[IDE Configuration Guide](../configs/IDE_CONFIGURATIONS.md)** - Multi-IDE setup and configuration
+- **[Security Implementation](../SECURITY_IMPLEMENTATION.md)** - Security features and admin password setup
+- **[Dashboard Guide](../dashboard/README.md)** - Dashboard features and usage
 - **[Testing Guide](TESTING.md)** - Comprehensive testing and verification procedures
 - **[Usage Guide](USAGE_GUIDE.md)** - Practical examples and usage patterns
 - **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions

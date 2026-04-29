@@ -19,12 +19,13 @@ Sytra is a suite of **production-ready MCP servers** that transform AI assistant
 
 - **🎯 10 Specialized Servers**: Each focused on specific development tasks
 - **🚀 Enterprise-Scale**: Handle 50GB+ repositories, 700+ files, complex databases
-- **🔒 Security-First**: Built-in security scanning and guardrails
+- **🔒 Security-First**: Built-in security scanning, admin password protection, and guardrails
 - **⚡ High Performance**: <15min for 50GB indexing, <100ms semantic search
 - **🔄 Easy Integration**: Simple setup with Claude Desktop or custom MCP clients
 - **📦 Modular Design**: Use only what you need
 - **🎼 Workflow Orchestration**: Pre-built workflows for common tasks
 - **🛠️ 100 Total Tools**: 17 orchestration tools + 83 specialized tools
+- **📊 Web Dashboard**: Real-time monitoring, security management, and system visualization
 
 ---
 
@@ -583,12 +584,46 @@ npm run type-check
 
 ---
 
+## 🎨 Dashboard
+
+Sytra includes a comprehensive web dashboard for monitoring and managing the MCP system:
+
+### Features
+- **Real-time Monitoring**: System health, token usage, and performance metrics
+- **Security Management**: Configure admin password, view audit logs, manage credentials
+- **Model Configuration**: Manage AI model settings and parameters
+- **Memory Visualization**: Interactive D3.js memory graph
+- **Log Viewer**: Real-time log streaming with filtering
+- **Bootstrap Icons**: Modern, consistent iconography throughout the UI
+
+### Quick Start
+
+1. **Install dashboard API dependencies:**
+   ```bash
+   cd dashboard-api
+   npm install
+   ```
+
+2. **Start the dashboard API:**
+   ```bash
+   npm start
+   ```
+
+3. **Access the dashboard:**
+   Open your browser to `http://localhost:3000`
+
+See [`dashboard/README.md`](dashboard/README.md) for detailed documentation.
+
+---
+
 ## 📚 Documentation
 
 - **[IDE Configuration Guide](configs/IDE_CONFIGURATIONS.md)** - Multi-IDE setup and configuration
 - **[Installation Guide](mcp-servers/INSTALLATION.md)** - Detailed installation instructions
 - **[Usage Guide](mcp-servers/USAGE_GUIDE.md)** - How to use the MCP servers
 - **[Troubleshooting](mcp-servers/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Security Implementation](SECURITY_IMPLEMENTATION.md)** - Security features and admin password setup
+- **[Dashboard Guide](dashboard/README.md)** - Dashboard features and usage
 - **[Orchestrator README](mcp-servers/orchestrator/README.md)** - Orchestrator documentation
 - **Individual Server READMEs** - Detailed docs for each server
 
@@ -596,13 +631,38 @@ npm run type-check
 
 ## 🔐 Security
 
-Sytra MCP servers implement security best practices:
+Sytra MCP servers implement comprehensive security features:
 
+### Core Security Features
+
+- **Admin Password Protection**: Secure password configuration via dashboard (never in config files)
+- **Dangerous Action Detection**: Automatic detection and password prompts for risky operations
 - **Input Validation**: All inputs are validated and sanitized
 - **Sandboxed Execution**: Code execution happens in isolated environments
 - **Security Scanning**: Built-in vulnerability detection
 - **Access Control**: Role-based access control support
-- **Audit Logging**: Comprehensive security audit trails
+- **Audit Logging**: Comprehensive security audit trails with timestamps
+- **Rate Limiting**: Protection against brute force attacks (5 attempts per 15 minutes)
+- **Workspace Validation**: File operations restricted to workspace boundaries
+
+### Admin Password Configuration
+
+**Important:** Admin passwords are configured exclusively through the dashboard interface and are **never stored in MCP config files**.
+
+1. Open the dashboard at `http://localhost:3000`
+2. Navigate to the **Security** section
+3. Set a strong admin password (minimum 8 characters)
+4. Password is securely hashed using PBKDF2 with 100,000 iterations
+
+### Password Prompts for Dangerous Actions
+
+The system automatically prompts for admin password when:
+- File operations occur outside the workspace directory
+- Dangerous commands are executed
+- System paths are accessed
+- Sensitive files are modified
+
+See [`SECURITY_IMPLEMENTATION.md`](SECURITY_IMPLEMENTATION.md) for detailed security documentation.
 
 For security issues, please email: security@sytra-mcp.io
 

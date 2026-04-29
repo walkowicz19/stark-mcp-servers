@@ -8,6 +8,7 @@ The Sytra system consists of:
 - **9 Backend Services** (Python FastAPI) - Ports 8001-8009
 - **10 MCP Servers** (Node.js) - Connect IDEs to backend services
 - **Orchestrator** - Intelligent routing and workflow engine
+- **Dashboard** - Web-based monitoring and management interface (Port 3000)
 
 ## Services
 
@@ -206,10 +207,21 @@ Services log to stdout in JSON format:
 
 ## Security
 
+### Service Security
 - All services run as non-root users in Docker
 - CORS is configurable per environment
 - Input validation using Pydantic models
 - Error messages sanitized to prevent information leakage
+
+### Admin Password Security
+**Important:** Admin passwords are configured exclusively through the Dashboard's Security section and are **never stored in service configuration files or environment variables**.
+
+- Password configuration: Dashboard → Security section
+- Secure hashing: PBKDF2 with 100,000 iterations
+- Rate limiting: 5 failed attempts per 15 minutes
+- Audit logging: All security events tracked
+
+See [`../SECURITY_IMPLEMENTATION.md`](../SECURITY_IMPLEMENTATION.md) for detailed security documentation.
 
 ## Performance
 
