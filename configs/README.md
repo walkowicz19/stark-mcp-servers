@@ -72,6 +72,15 @@ All servers require backend API URLs. Default configuration uses:
 - Schema: `http://localhost:8008`
 - Performance: `http://localhost:8009`
 
+### Orchestrator-Specific Configuration
+
+The **sytra-orchestrator** server requires an additional environment variable:
+
+- **`WORKFLOWS_DIR`**: Absolute path to the workflows directory
+  - Example: `/absolute/path/to/sytra-mcp/mcp-servers/orchestrator/workflows`
+  - **Required** for proper workflow loading in all IDEs
+  - See [Workflows Configuration Guide](../mcp-servers/orchestrator/WORKFLOWS_CONFIGURATION.md) for details
+
 If your backend services run on different ports, update the `env` section in each server configuration.
 
 ## IDE-Specific Notes

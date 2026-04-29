@@ -13,7 +13,11 @@ export class WorkflowDefinitions {
   private workflowsDir: string;
 
   constructor(workflowsDir?: string) {
-    this.workflowsDir = workflowsDir || path.join(process.cwd(), 'workflows');
+    // Allow configuration via environment variable or parameter
+    // Default to a relative path from the build directory
+    this.workflowsDir = workflowsDir ||
+                        process.env.WORKFLOWS_DIR ||
+                        path.join(__dirname, '..', '..', 'workflows');
     this.loadWorkflows();
   }
 
