@@ -1,0 +1,26 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install shared requirements
+COPY shared/requirements.txt /app/shared/requirements.txt
+RUN pip install --no-cache-dir -r shared/requirements.txt
+
+# Copy shared code
+COPY shared /app/shared
+
+# Copy service code
+COPY sdlc /app/sdlc
+
+WORKDIR /app/sdlc
+
+# Expose port
+EXPOSE 8006
+
+# Run service
+CMD ["python", "main.py"]

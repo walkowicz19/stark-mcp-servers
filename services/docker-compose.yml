@@ -1,0 +1,179 @@
+version: '3.8'
+
+services:
+  security:
+    build:
+      context: .
+      dockerfile: security/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - SERVICE_NAME=security
+      - SERVICE_PORT=8001
+    volumes:
+      - ./shared:/app/shared
+      - ./security:/app/security
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  codegen:
+    build:
+      context: .
+      dockerfile: codegen/Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - SERVICE_NAME=codegen
+      - SERVICE_PORT=8002
+    volumes:
+      - ./shared:/app/shared
+      - ./codegen:/app/codegen
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  memory:
+    build:
+      context: .
+      dockerfile: memory/Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - SERVICE_NAME=memory
+      - SERVICE_PORT=8003
+    volumes:
+      - ./shared:/app/shared
+      - ./memory:/app/memory
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  intelligence:
+    build:
+      context: .
+      dockerfile: intelligence/Dockerfile
+    ports:
+      - "8004:8004"
+    environment:
+      - SERVICE_NAME=intelligence
+      - SERVICE_PORT=8004
+    volumes:
+      - ./shared:/app/shared
+      - ./intelligence:/app/intelligence
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  tokens:
+    build:
+      context: .
+      dockerfile: tokens/Dockerfile
+    ports:
+      - "8005:8005"
+    environment:
+      - SERVICE_NAME=tokens
+      - SERVICE_PORT=8005
+    volumes:
+      - ./shared:/app/shared
+      - ./tokens:/app/tokens
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  sdlc:
+    build:
+      context: .
+      dockerfile: sdlc/Dockerfile
+    ports:
+      - "8006:8006"
+    environment:
+      - SERVICE_NAME=sdlc
+      - SERVICE_PORT=8006
+    volumes:
+      - ./shared:/app/shared
+      - ./sdlc:/app/sdlc
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  legacy:
+    build:
+      context: .
+      dockerfile: legacy/Dockerfile
+    ports:
+      - "8007:8007"
+    environment:
+      - SERVICE_NAME=legacy
+      - SERVICE_PORT=8007
+    volumes:
+      - ./shared:/app/shared
+      - ./legacy:/app/legacy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  schema:
+    build:
+      context: .
+      dockerfile: schema/Dockerfile
+    ports:
+      - "8008:8008"
+    environment:
+      - SERVICE_NAME=schema
+      - SERVICE_PORT=8008
+    volumes:
+      - ./shared:/app/shared
+      - ./schema:/app/schema
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  performance:
+    build:
+      context: .
+      dockerfile: performance/Dockerfile
+    ports:
+      - "8009:8009"
+    environment:
+      - SERVICE_NAME=performance
+      - SERVICE_PORT=8009
+    volumes:
+      - ./shared:/app/shared
+      - ./performance:/app/performance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8009/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  default:
+    name: sytra-network
+
+# Made with Bob

@@ -207,10 +207,49 @@ Write-ColorOutput $durationLine "Gray"
 
 if ($successCount -eq $totalServers) {
     Write-ColorOutput "`nAll servers built successfully!" "Green"
+    
+    # Check if Docker is available for backend services
+    Write-ColorOutput "`n=== Backend Services Setup ===" "Magenta"
+    try {
+        $dockerVersion = docker --version 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-ColorOutput "Docker found: $dockerVersion" "Green"
+            Write-ColorOutput "`nWould you like to start the backend services now? (Y/N)" "Cyan"
+            $response = Read-Host
+            
+            if ($response -eq 'Y' -or $response -eq 'y') {
+                Write-ColorOutput "`nStarting backend services..." "Cyan"
+                Push-Location services
+                try {
+                    & .\start-services.ps1
+                    Pop-Location
+                }
+                catch {
+                    Pop-Location
+                    Write-ColorOutput "Failed to start services. You can start them manually later with:" "Yellow"
+                    Write-ColorOutput "  cd services && .\start-services.ps1" "Gray"
+                }
+            }
+            else {
+                Write-ColorOutput "`nTo start backend services later, run:" "Yellow"
+                Write-ColorOutput "  cd services && .\start-services.ps1" "Gray"
+            }
+        }
+        else {
+            Write-ColorOutput "Docker not found. Backend services require Docker." "Yellow"
+            Write-ColorOutput "Install Docker Desktop from: https://www.docker.com/products/docker-desktop" "Gray"
+            Write-ColorOutput "`nOr start services manually with Python:" "Yellow"
+            Write-ColorOutput "  cd services && python -m venv venv && venv\Scripts\activate && pip install -r shared/requirements.txt" "Gray"
+        }
+    }
+    catch {
+        Write-ColorOutput "Docker not available. Backend services require Docker or Python." "Yellow"
+    }
+    
     Write-ColorOutput "`nNext steps:" "Cyan"
     Write-ColorOutput "  1. Configure your IDE (see configs/ directory)" "Gray"
     Write-ColorOutput "  2. Update paths in config to match your installation" "Gray"
-    Write-ColorOutput "  3. Start the Sytra backend services" "Gray"
+    Write-ColorOutput "  3. Ensure backend services are running (ports 8001-8009)" "Gray"
     Write-ColorOutput "  4. Restart your IDE to load the MCP servers" "Gray"
     Write-ColorOutput "  5. Test with: 'sytra analyze this code...'" "Gray"
     exit 0

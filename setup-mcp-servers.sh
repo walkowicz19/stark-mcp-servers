@@ -174,10 +174,36 @@ print_color "$GRAY" "  Duration: ${MINUTES}m ${SECONDS}s"
 
 if [ $success_count -eq $total_servers ]; then
     print_color "$GREEN" "\nAll servers built successfully!"
+    
+    # Check if Docker is available for backend services
+    print_color "$MAGENTA" "\n=== Backend Services Setup ==="
+    if command -v docker &> /dev/null; then
+        DOCKER_VERSION=$(docker --version)
+        print_color "$GREEN" "Docker found: $DOCKER_VERSION"
+        
+        echo ""
+        read -p "Would you like to start the backend services now? (Y/N): " response
+        
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            print_color "$CYAN" "\nStarting backend services..."
+            cd services
+            bash start-services.sh
+            cd ..
+        else
+            print_color "$YELLOW" "\nTo start backend services later, run:"
+            print_color "$GRAY" "  cd services && bash start-services.sh"
+        fi
+    else
+        print_color "$YELLOW" "Docker not found. Backend services require Docker."
+        print_color "$GRAY" "Install Docker from: https://www.docker.com/get-started"
+        print_color "$YELLOW" "\nOr start services manually with Python:"
+        print_color "$GRAY" "  cd services && python3 -m venv venv && source venv/bin/activate && pip install -r shared/requirements.txt"
+    fi
+    
     print_color "$CYAN" "\nNext steps:"
     print_color "$GRAY" "  1. Configure your IDE (see configs/ directory)"
     print_color "$GRAY" "  2. Update paths in config to match your installation"
-    print_color "$GRAY" "  3. Start the Sytra backend services"
+    print_color "$GRAY" "  3. Ensure backend services are running (ports 8001-8009)"
     print_color "$GRAY" "  4. Restart your IDE to load the MCP servers"
     print_color "$GRAY" "  5. Test with: 'sytra analyze this code...'"
     exit 0
