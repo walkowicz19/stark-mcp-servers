@@ -127,6 +127,10 @@ class DashboardDatabase {
         frequency_penalty REAL DEFAULT 0.0,
         presence_penalty REAL DEFAULT 0.0,
         is_active BOOLEAN DEFAULT 1,
+        provider TEXT,
+        source TEXT DEFAULT 'manual',
+        last_seen DATETIME,
+        metadata TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
@@ -170,7 +174,21 @@ class DashboardDatabase {
       CREATE INDEX IF NOT EXISTS idx_health_metrics_timestamp ON health_metrics(timestamp);
     `);
 
+    this.ensureColumnExists('model_configs', 'provider', 'ALTER TABLE model_configs ADD COLUMN provider TEXT');
+    this.ensureColumnExists('model_configs', 'source', "ALTER TABLE model_configs ADD COLUMN source TEXT DEFAULT 'manual'");
+    this.ensureColumnExists('model_configs', 'last_seen', 'ALTER TABLE model_configs ADD COLUMN last_seen DATETIME');
+    this.ensureColumnExists('model_configs', 'metadata', 'ALTER TABLE model_configs ADD COLUMN metadata TEXT');
+
     console.log('Database tables initialized successfully');
+  }
+
+  ensureColumnExists(tableName, columnName, alterSql) {
+    const columns = this.db.prepare(`PRAGMA table_info(${tableName})`).all();
+    const hasColumn = columns.some(column => column.name === columnName);
+
+    if (!hasColumn) {
+      this.db.exec(alterSql);
+    }
   }
 
   // Token usage methods
@@ -423,19 +441,24 @@ class DashboardDatabase {
 
   // Model configuration methods
   saveModelConfig(config) {
+    const existing = this.getModelConfig(config.model_name) || {};
     const stmt = this.db.prepare(`
-      INSERT OR REPLACE INTO model_configs 
-      (model_name, temperature, max_tokens, top_p, frequency_penalty, presence_penalty, is_active, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      INSERT OR REPLACE INTO model_configs
+      (model_name, temperature, max_tokens, top_p, frequency_penalty, presence_penalty, is_active, provider, source, last_seen, metadata, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     `);
     return stmt.run(
       config.model_name,
-      config.temperature,
-      config.max_tokens,
-      config.top_p,
-      config.frequency_penalty,
-      config.presence_penalty,
-      config.is_active ? 1 : 0
+      config.temperature ?? existing.temperature ?? 0.7,
+      config.max_tokens ?? existing.max_tokens ?? 2000,
+      config.top_p ?? existing.top_p ?? 1.0,
+      config.frequency_penalty ?? existing.frequency_penalty ?? 0.0,
+      config.presence_penalty ?? existing.presence_penalty ?? 0.0,
+      config.is_active !== undefined ? (config.is_active ? 1 : 0) : (existing.is_active !== undefined ? existing.is_active : 1),
+      config.provider ?? existing.provider ?? null,
+      config.source ?? existing.source ?? 'manual',
+      config.last_seen ?? existing.last_seen ?? null,
+      JSON.stringify(config.metadata ?? (existing.metadata ? JSON.parse(existing.metadata) : {}))
     );
   }
 
@@ -445,8 +468,31 @@ class DashboardDatabase {
   }
 
   getAllModelConfigs() {
-    const stmt = this.db.prepare('SELECT * FROM model_configs ORDER BY model_name');
+    const stmt = this.db.prepare('SELECT * FROM model_configs ORDER BY COALESCE(last_seen, updated_at) DESC, model_name');
     return stmt.all();
+  }
+
+  getDistinctTrackedModels(period = '30d') {
+    const timeMap = {
+      '1h': '-1 hours',
+      '24h': '-24 hours',
+      '7d': '-7 days',
+      '30d': '-30 days'
+    };
+
+    const stmt = this.db.prepare(`
+      SELECT
+        model,
+        COUNT(*) as request_count,
+        MAX(timestamp) as last_seen,
+        SUM(total_tokens) as total_tokens
+      FROM token_usage
+      WHERE timestamp >= datetime('now', ?)
+      GROUP BY model
+      ORDER BY last_seen DESC
+    `);
+
+    return stmt.all(timeMap[period] || timeMap['30d']);
   }
 
   // Health metrics methods

@@ -1,28 +1,61 @@
 const express = require('express');
 const router = express.Router();
 
+function getAvailableModels() {
+  return [
+    { id: 'gpt-4', name: 'GPT-4', provider: 'OpenAI', description: 'Most capable GPT-4 model' },
+    { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', provider: 'OpenAI', description: 'Faster and cheaper GPT-4' },
+    { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', provider: 'OpenAI', description: 'Fast and efficient' },
+    { id: 'claude-3-opus', name: 'Claude 3 Opus', provider: 'Anthropic', description: 'Most capable Claude model' },
+    { id: 'claude-3-sonnet', name: 'Claude 3 Sonnet', provider: 'Anthropic', description: 'Balanced performance' },
+    { id: 'claude-3-haiku', name: 'Claude 3 Haiku', provider: 'Anthropic', description: 'Fast and affordable' },
+    { id: 'claude-3.5-sonnet', name: 'Claude 3.5 Sonnet', provider: 'Anthropic', description: 'Latest Claude model' }
+  ];
+}
+
+function inferProvider(modelName = '') {
+  const normalized = modelName.toLowerCase();
+  if (normalized.includes('claude')) return 'Anthropic';
+  if (normalized.includes('gpt')) return 'OpenAI';
+  if (normalized.includes('gemini')) return 'Google';
+  if (normalized.includes('llama')) return 'Meta';
+  if (normalized.includes('mistral')) return 'Mistral';
+  return 'Unknown';
+}
+
 // Get all model configurations
 router.get('/', (req, res) => {
   try {
     const { db } = req.app.locals;
-    const models = db.getAllModelConfigs();
-    
-    // Get available models
-    const availableModels = [
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable GPT-4 model' },
-      { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', description: 'Faster and cheaper GPT-4' },
-      { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', description: 'Fast and efficient' },
-      { id: 'claude-3-opus', name: 'Claude 3 Opus', description: 'Most capable Claude model' },
-      { id: 'claude-3-sonnet', name: 'Claude 3 Sonnet', description: 'Balanced performance' },
-      { id: 'claude-3-haiku', name: 'Claude 3 Haiku', description: 'Fast and affordable' },
-      { id: 'claude-3.5-sonnet', name: 'Claude 3.5 Sonnet', description: 'Latest Claude model' }
-    ];
+    const configuredModels = db.getAllModelConfigs();
+    const trackedModels = db.getDistinctTrackedModels(req.query.period || '30d');
+
+    const configuredMap = new Map(configuredModels.map(model => [model.model_name, model]));
+    const mergedModels = [...configuredModels];
+
+    trackedModels.forEach(tracked => {
+      if (!configuredMap.has(tracked.model)) {
+        mergedModels.push({
+          model_name: tracked.model,
+          provider: inferProvider(tracked.model),
+          source: 'tracked',
+          is_active: 1,
+          last_seen: tracked.last_seen,
+          metadata: JSON.stringify({
+            tracked_only: true,
+            request_count: tracked.request_count,
+            total_tokens: tracked.total_tokens
+          })
+        });
+      }
+    });
     
     res.json({
       success: true,
-      models: models,
-      available: availableModels,
-      count: models.length
+      models: mergedModels,
+      tracked: trackedModels,
+      available: getAvailableModels(),
+      count: mergedModels.length
     });
   } catch (error) {
     res.status(500).json({
@@ -79,7 +112,11 @@ router.post('/', (req, res) => {
       top_p: config.top_p || 1.0,
       frequency_penalty: config.frequency_penalty || 0.0,
       presence_penalty: config.presence_penalty || 0.0,
-      is_active: config.is_active !== undefined ? config.is_active : true
+      is_active: config.is_active !== undefined ? config.is_active : true,
+      provider: config.provider || inferProvider(config.model_name),
+      source: config.source || 'manual',
+      last_seen: config.last_seen || new Date().toISOString(),
+      metadata: config.metadata || {}
     };
     
     db.saveModelConfig(modelConfig);
@@ -125,7 +162,11 @@ router.put('/:modelName', (req, res) => {
       top_p: updates.top_p !== undefined ? updates.top_p : existingModel.top_p,
       frequency_penalty: updates.frequency_penalty !== undefined ? updates.frequency_penalty : existingModel.frequency_penalty,
       presence_penalty: updates.presence_penalty !== undefined ? updates.presence_penalty : existingModel.presence_penalty,
-      is_active: updates.is_active !== undefined ? updates.is_active : existingModel.is_active
+      is_active: updates.is_active !== undefined ? updates.is_active : existingModel.is_active,
+      provider: updates.provider !== undefined ? updates.provider : existingModel.provider,
+      source: updates.source !== undefined ? updates.source : existingModel.source,
+      last_seen: updates.last_seen !== undefined ? updates.last_seen : existingModel.last_seen,
+      metadata: updates.metadata !== undefined ? updates.metadata : (existingModel.metadata ? JSON.parse(existingModel.metadata) : {})
     };
     
     db.saveModelConfig(modelConfig);
@@ -208,64 +249,7 @@ router.get('/:modelName/metrics', (req, res) => {
 
 // Get available models (predefined list)
 router.get('/available/list', (req, res) => {
-  const availableModels = [
-    {
-      id: 'gpt-4',
-      name: 'GPT-4',
-      provider: 'OpenAI',
-      description: 'Most capable GPT-4 model',
-      context_window: 8192,
-      cost: { prompt: 0.03, completion: 0.06 }
-    },
-    {
-      id: 'gpt-4-turbo',
-      name: 'GPT-4 Turbo',
-      provider: 'OpenAI',
-      description: 'Faster and cheaper GPT-4',
-      context_window: 128000,
-      cost: { prompt: 0.01, completion: 0.03 }
-    },
-    {
-      id: 'gpt-3.5-turbo',
-      name: 'GPT-3.5 Turbo',
-      provider: 'OpenAI',
-      description: 'Fast and efficient',
-      context_window: 16385,
-      cost: { prompt: 0.0005, completion: 0.0015 }
-    },
-    {
-      id: 'claude-3-opus',
-      name: 'Claude 3 Opus',
-      provider: 'Anthropic',
-      description: 'Most capable Claude model',
-      context_window: 200000,
-      cost: { prompt: 0.015, completion: 0.075 }
-    },
-    {
-      id: 'claude-3-sonnet',
-      name: 'Claude 3 Sonnet',
-      provider: 'Anthropic',
-      description: 'Balanced performance',
-      context_window: 200000,
-      cost: { prompt: 0.003, completion: 0.015 }
-    },
-    {
-      id: 'claude-3-haiku',
-      name: 'Claude 3 Haiku',
-      provider: 'Anthropic',
-      description: 'Fast and affordable',
-      context_window: 200000,
-      cost: { prompt: 0.00025, completion: 0.00125 }
-    },
-    {
-      id: 'claude-3.5-sonnet',
-      name: 'Claude 3.5 Sonnet',
-      provider: 'Anthropic',
-      description: 'Latest Claude model',
-      context_window: 200000,
-      cost: { prompt: 0.003, completion: 0.015 }
-    }
-  ];
+  const availableModels = getAvailableModels();
   
   res.json({
     success: true,

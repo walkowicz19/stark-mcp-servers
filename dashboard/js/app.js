@@ -232,34 +232,61 @@ class Dashboard {
     }
 
     const active = models.models.filter(m => m.is_active);
+    const tracked = models.tracked || [];
     const available = models.available || [];
 
     if (activeList) {
       if (active.length === 0) {
         activeList.innerHTML = '<p class="no-data">No active models</p>';
       } else {
-        activeList.innerHTML = active.map(model => `
+        activeList.innerHTML = active.map(model => {
+          let parsedMetadata = {};
+          try {
+            parsedMetadata = typeof model.metadata === 'string' ? JSON.parse(model.metadata) : (model.metadata || {});
+          } catch (error) {
+            parsedMetadata = {};
+          }
+
+          const trackedInfo = tracked.find(t => t.model === model.model_name);
+          return `
           <div class="model-card">
             <div class="model-header">
               <h4>${this.escapeHtml(model.model_name)}</h4>
-              <span class="badge badge-success">Active</span>
+              <span class="badge badge-success">${model.source === 'tracked' ? 'Tracked' : 'Active'}</span>
             </div>
             <div class="model-body">
               <div class="model-param">
+                <span>Provider:</span>
+                <span>${this.escapeHtml(model.provider || 'Unknown')}</span>
+              </div>
+              <div class="model-param">
+                <span>Source:</span>
+                <span>${this.escapeHtml(model.source || 'manual')}</span>
+              </div>
+              <div class="model-param">
                 <span>Temperature:</span>
-                <span>${model.temperature}</span>
+                <span>${model.temperature ?? '-'}</span>
               </div>
               <div class="model-param">
                 <span>Max Tokens:</span>
-                <span>${model.max_tokens}</span>
+                <span>${model.max_tokens ?? '-'}</span>
               </div>
               <div class="model-param">
-                <span>Top P:</span>
-                <span>${model.top_p}</span>
+                <span>IDE:</span>
+                <span>${this.escapeHtml(parsedMetadata.ide || '-')}</span>
+              </div>
+              <div class="model-param">
+                <span>Requests:</span>
+                <span>${this.formatNumber(trackedInfo?.request_count || parsedMetadata.request_count || 0)}</span>
+              </div>
+              <div class="model-param">
+                <span>Last Seen:</span>
+                <span>${model.last_seen ? this.formatTimestamp(model.last_seen) : '-'}</span>
               </div>
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
     }
 
@@ -478,10 +505,58 @@ class Dashboard {
 
     api.on('ws:health_update', (data) => {
       this.updateHealthOverview(data.data);
+      if (this.currentSection === 'health') {
+        this.loadHealthStatus();
+      }
     });
 
     api.on('ws:token_update', (data) => {
-      this.updateTokenOverview(data.data);
+      this.updateTokenOverview({
+        summary: data.data?.totals || {},
+        by_model: data.data?.by_model || []
+      });
+      if (this.currentSection === 'tokens') {
+        this.loadTokenData();
+      }
+    });
+
+    api.on('ws:token_usage', () => {
+      this.loadOverviewData();
+      if (this.currentSection === 'tokens') {
+        this.loadTokenData();
+      }
+      if (this.currentSection === 'models') {
+        this.loadModels();
+      }
+      if (this.currentSection === 'memory') {
+        this.loadMemoryData();
+      }
+    });
+
+    api.on('ws:model_config_updated', () => {
+      this.loadModels();
+    });
+
+    api.on('ws:memory_node_updated', () => {
+      this.updateMemorySectionLive();
+    });
+
+    api.on('ws:memory_relationship_created', () => {
+      this.updateMemorySectionLive();
+    });
+
+    api.on('ws:command_log', () => {
+      if (this.currentSection === 'logs') {
+        this.loadLogs();
+      }
+      this.loadOverviewData();
+    });
+
+    api.on('ws:hallucination_detected', () => {
+      if (this.currentSection === 'logs') {
+        this.loadLogs();
+      }
+      this.loadOverviewData();
     });
 
     api.on('ws:alerts', (data) => {
@@ -518,6 +593,13 @@ class Dashboard {
 
     if (wsDot) {
       wsDot.className = `ws-dot ws-${status}`;
+    }
+  }
+
+  async updateMemorySectionLive() {
+    await this.loadOverviewData();
+    if (this.currentSection === 'memory') {
+      await this.loadMemoryData();
     }
   }
 

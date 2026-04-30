@@ -75,10 +75,21 @@ class DashboardAPI {
       this.wsReconnectAttempts = 0;
       this.emit('ws:connected');
       
-      // Subscribe to all events
+      // Subscribe to all events used by the dashboard
       this.ws.send(JSON.stringify({
         type: 'subscribe',
-        events: ['health_update', 'token_update', 'alerts', 'log_update']
+        events: [
+          'health_update',
+          'token_update',
+          'alerts',
+          'log_update',
+          'token_usage',
+          'model_config_updated',
+          'memory_node_updated',
+          'memory_relationship_created',
+          'command_log',
+          'hallucination_detected'
+        ]
       }));
     };
 

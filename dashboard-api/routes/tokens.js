@@ -4,10 +4,11 @@ const router = express.Router();
 // Get token usage statistics
 router.get('/stats', (req, res) => {
   try {
-    const { db } = req.app.locals;
+    const { db, tokenTracker } = req.app.locals;
     const period = req.query.period || '24h';
     
     const stats = db.getTokenStats(period);
+    const timeline = tokenTracker.getUsageTimeSeries(period);
     
     // Calculate summary
     const summary = {
@@ -20,7 +21,12 @@ router.get('/stats', (req, res) => {
       success: true,
       summary,
       by_model: stats,
-      timeline: [], // Would need to implement timeline data
+      timeline: timeline.map(item => ({
+        timestamp: item.timestamp,
+        total_tokens: item.tokens,
+        total_cost: item.cost,
+        request_count: item.requests
+      })),
       period
     });
   } catch (error) {
@@ -83,23 +89,116 @@ router.get('/history', (req, res) => {
 // Track new token usage
 router.post('/track', (req, res) => {
   try {
-    const { tokenTracker, broadcast } = req.app.locals;
+    const { tokenTracker, db, broadcast } = req.app.locals;
     const data = req.body;
     
     // Validate required fields
-    if (!data.model || !data.prompt_tokens || !data.completion_tokens) {
+    if (!data.model || data.prompt_tokens === undefined || data.completion_tokens === undefined) {
       return res.status(400).json({
         success: false,
         error: 'model, prompt_tokens, and completion_tokens are required'
       });
     }
-    
+
+    const modelName = data.model;
+    const provider = data.provider || (
+      modelName.toLowerCase().includes('claude') ? 'Anthropic' :
+      modelName.toLowerCase().includes('gpt') ? 'OpenAI' :
+      modelName.toLowerCase().includes('gemini') ? 'Google' :
+      modelName.toLowerCase().includes('llama') ? 'Meta' :
+      'Unknown'
+    );
+
     const result = tokenTracker.trackUsage(data);
+
+    db.saveModelConfig({
+      model_name: modelName,
+      provider,
+      source: data.source || 'tracked',
+      is_active: true,
+      last_seen: new Date().toISOString(),
+      metadata: {
+        ide: data.ide || null,
+        tool_name: data.tool_name || null,
+        session_id: data.session_id || null,
+        last_prompt_tokens: data.prompt_tokens,
+        last_completion_tokens: data.completion_tokens
+      }
+    });
+
+    if (data.session_id || data.ide || data.tool_name || data.project_path || data.action) {
+      const sessionNodeId = data.session_id || `session:${modelName}:${Date.now()}`;
+      db.saveMemoryNode(
+        sessionNodeId,
+        'session',
+        data.action || `Model activity for ${modelName}`,
+        {
+          model: modelName,
+          ide: data.ide || null,
+          tool_name: data.tool_name || null,
+          session_id: data.session_id || null,
+          project_path: data.project_path || null,
+          source: 'token_track'
+        }
+      );
+
+      db.saveMemoryNode(
+        `model:${modelName}`,
+        'model',
+        modelName,
+        {
+          provider,
+          source: 'token_track',
+          ide: data.ide || null
+        }
+      );
+
+      if (data.project_path) {
+        db.saveMemoryNode(
+          `project:${data.project_path}`,
+          'project',
+          data.project_path,
+          {
+            source: 'token_track',
+            ide: data.ide || null
+          }
+        );
+        db.saveMemoryRelationship(`project:${data.project_path}`, sessionNodeId, 'contains_activity', 1.0);
+      }
+
+      db.saveMemoryRelationship(`model:${modelName}`, sessionNodeId, 'used_in', 1.0);
+    }
     
     // Broadcast update
     broadcast({
       type: 'token_usage',
-      data: result,
+      data: {
+        ...result,
+        model: modelName,
+        ide: data.ide || null,
+        tool_name: data.tool_name || null
+      },
+      timestamp: new Date().toISOString()
+    });
+
+    broadcast({
+      type: 'model_config_updated',
+      data: {
+        model_name: modelName,
+        provider,
+        source: data.source || 'tracked',
+        last_seen: new Date().toISOString()
+      },
+      timestamp: new Date().toISOString()
+    });
+
+    broadcast({
+      type: 'memory_node_updated',
+      data: {
+        node_id: data.session_id || `model:${modelName}`,
+        type: data.session_id ? 'session' : 'model',
+        action: 'created'
+      },
       timestamp: new Date().toISOString()
     });
     
