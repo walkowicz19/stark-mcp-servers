@@ -245,11 +245,11 @@ Sytra MCP servers work with multiple IDEs and AI tools. See the **[IDE Configura
 
 **Quick Start:** Copy configuration from [`configs/`](configs/) directory for your IDE.
 
-### Installation
+### Installation & Startup
 
-#### Option 1: Automated Setup (⭐ Recommended)
+#### One-Command Startup (⭐ Recommended)
 
-Use the automated setup script to build all servers at once:
+Start all services (Docker backend + Dashboard) with a single command:
 
 **Windows (PowerShell):**
 ```powershell
@@ -257,8 +257,11 @@ Use the automated setup script to build all servers at once:
 git clone https://github.com/walkowicz19/sytra-mcp-servers.git
 cd sytra-mcp-servers
 
-# Run the automated setup script
-powershell -ExecutionPolicy Bypass -File setup-mcp-servers.ps1
+# Start everything (Docker services + Dashboard + Browser)
+.\start-all.ps1
+
+# Stop everything when done
+.\stop-all.ps1
 ```
 
 **Linux/macOS:**
@@ -267,37 +270,38 @@ powershell -ExecutionPolicy Bypass -File setup-mcp-servers.ps1
 git clone https://github.com/walkowicz19/sytra-mcp-servers.git
 cd sytra-mcp-servers
 
-# Make the script executable and run it
-chmod +x setup-mcp-servers.sh
-./setup-mcp-servers.sh
+# Make scripts executable
+chmod +x start-all.sh stop-all.sh
+
+# Start everything (Docker services + Dashboard + Browser)
+./start-all.sh
+
+# Stop everything when done
+./stop-all.sh
 ```
 
-The script will:
-- ✅ Check prerequisites (Node.js 18+, npm)
-- ✅ Build the shared library
-- ✅ Build all 10 MCP servers
-- ✅ Verify build outputs
-- ✅ Display a summary report
+The `start-all` script will:
+- ✅ Check prerequisites (Node.js 20+, Docker)
+- ✅ Start 9 backend services (Docker containers on ports 8001-8009)
+- ✅ Start Dashboard API (Node.js on port 3000)
+- ✅ Open dashboard in your browser
+- ✅ Display service health status
 
-**Expected output:** `11/11 servers built successfully` in ~2-3 minutes
+**Expected startup time:** ~2-3 minutes (first run with Docker image builds)
 
-#### Option 2: Orchestrator Only
+**Available flags:**
+- `--skip-docker` / `-SkipDocker`: Skip Docker backend services
+- `--skip-dashboard` / `-SkipDashboard`: Skip Dashboard API
+- `--no-browser` / `-NoBrowser`: Don't open browser automatically
 
-Install just the orchestrator (requires backend services running, typically via Docker):
-
+**Example:**
 ```bash
-# Clone the repository
-git clone https://github.com/walkowicz19/sytra-mcp-servers.git
-cd sytra-mcp-servers/mcp-servers/orchestrator
+# Start only dashboard (no Docker services)
+./start-all.sh --skip-docker
 
-# Install dependencies
-npm install
-
-# Build
-npm run build
+# Start services but don't open browser
+.\start-all.ps1 -NoBrowser
 ```
-
-**⚠️ Important:** The orchestrator requires the Sytra backend services to be running. The recommended way to start them is with Docker Compose from the `services/` directory. It coordinates calls to specialized services but doesn't include their implementation.
 
 #### Option 3: Individual Servers
 
