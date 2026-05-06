@@ -153,13 +153,15 @@ h4 { font-size: 1.25rem; }
 .ws-dot.disconnected { background-color: var(--status-error); }
 
 /* Navigation */
-.nav {
+.navigation {
     background-color: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     position: sticky;
     top: 60px;
     z-index: 999;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .nav {
@@ -167,8 +169,9 @@ h4 { font-size: 1.25rem; }
     margin: 0 auto;
     padding: 0 var(--spacing-xl);
     display: flex;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-md);
     overflow-x: auto;
+    flex-wrap: nowrap;
 }
 
 .nav-item {

@@ -77,6 +77,115 @@ class MemoryService(BaseService):
                 "data": {"result": "Mock implementation - replace with actual logic"}
             }
 
+        @self.app.get("/graph")
+        async def get_graph():
+            """Get memory graph visualization data"""
+            self.log_info("Graph data requested")
+            # Sample graph data for visualization
+            return {
+                "nodes": [
+                    {
+                        "id": "node1",
+                        "node_id": "context_1",
+                        "type": "context",
+                        "content": "User authentication flow",
+                        "access_count": 15,
+                        "x": 100,
+                        "y": 100
+                    },
+                    {
+                        "id": "node2",
+                        "node_id": "context_2",
+                        "type": "code",
+                        "content": "Database connection logic",
+                        "access_count": 23,
+                        "x": 200,
+                        "y": 150
+                    },
+                    {
+                        "id": "node3",
+                        "node_id": "context_3",
+                        "type": "api",
+                        "content": "REST API endpoints",
+                        "access_count": 8,
+                        "x": 150,
+                        "y": 250
+                    },
+                    {
+                        "id": "node4",
+                        "node_id": "context_4",
+                        "type": "context",
+                        "content": "Error handling patterns",
+                        "access_count": 12,
+                        "x": 300,
+                        "y": 200
+                    },
+                    {
+                        "id": "node5",
+                        "node_id": "context_5",
+                        "type": "data",
+                        "content": "User session management",
+                        "access_count": 19,
+                        "x": 250,
+                        "y": 100
+                    }
+                ],
+                "relationships": [
+                    {
+                        "source": "node1",
+                        "target": "node2",
+                        "weight": 5,
+                        "type": "depends_on"
+                    },
+                    {
+                        "source": "node2",
+                        "target": "node3",
+                        "weight": 3,
+                        "type": "uses"
+                    },
+                    {
+                        "source": "node1",
+                        "target": "node5",
+                        "weight": 4,
+                        "type": "relates_to"
+                    },
+                    {
+                        "source": "node3",
+                        "target": "node4",
+                        "weight": 2,
+                        "type": "handles"
+                    },
+                    {
+                        "source": "node5",
+                        "target": "node2",
+                        "weight": 3,
+                        "type": "requires"
+                    }
+                ]
+            }
+
+        @self.app.get("/stats")
+        async def get_stats():
+            """Get memory statistics"""
+            self.log_info("Stats requested")
+            return {
+                "total_nodes": 5,
+                "total_relationships": 5,
+                "total_access": 77,
+                "avg_access": 15.4,
+                "node_types": {
+                    "context": 2,
+                    "code": 1,
+                    "api": 1,
+                    "data": 1
+                },
+                "most_accessed": {
+                    "node_id": "context_2",
+                    "content": "Database connection logic",
+                    "access_count": 23
+                }
+            }
+
 
 # Create service instance
 service = MemoryService()
@@ -86,3 +195,5 @@ app = service.get_app()
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8003)
+
+# Made with Bob

@@ -134,22 +134,27 @@ class Dashboard {
     const healthyEl = document.getElementById('healthyServers');
     const unhealthyEl = document.getElementById('unhealthyServers');
 
-    if (statusEl && health.summary) {
-      const status = health.summary.overall_status || 'unknown';
+    // Handle the actual API response structure
+    const status = health.status || 'unknown';
+    const services = health.services || [];
+    const healthyCount = services.filter(s => s.status === 'healthy').length;
+    const unhealthyCount = services.filter(s => s.status !== 'healthy').length;
+
+    if (statusEl) {
       statusEl.querySelector('.metric-value').textContent = status.toUpperCase();
       statusEl.querySelector('.metric-value').className = `metric-value status-${status}`;
     }
 
-    if (healthyEl && health.summary) {
-      healthyEl.textContent = health.summary.healthy || 0;
+    if (healthyEl) {
+      healthyEl.textContent = healthyCount;
     }
 
-    if (unhealthyEl && health.summary) {
-      unhealthyEl.textContent = health.summary.unhealthy || 0;
+    if (unhealthyEl) {
+      unhealthyEl.textContent = unhealthyCount;
     }
 
     // Update system status indicator
-    this.updateSystemStatus(health.summary?.overall_status || 'unknown');
+    this.updateSystemStatus(status);
   }
 
   updateTokenOverview(stats) {
@@ -175,15 +180,20 @@ class Dashboard {
     const relationshipsEl = document.getElementById('memoryRelationships');
     const accessEl = document.getElementById('memoryAccess');
 
-    if (stats) {
+    // Handle the actual API response structure from /api/memory/stats
+    const actualStats = stats.stats || stats;
+    
+    if (actualStats) {
       if (nodesEl) {
-        nodesEl.textContent = this.formatNumber(stats.total_nodes || 0);
+        nodesEl.textContent = this.formatNumber(actualStats.totalNodes || 0);
       }
       if (relationshipsEl) {
-        relationshipsEl.textContent = this.formatNumber(stats.total_relationships || 0);
+        relationshipsEl.textContent = this.formatNumber(actualStats.totalRelationships || 0);
       }
       if (accessEl) {
-        accessEl.textContent = this.formatNumber(stats.total_access || 0);
+        // Calculate total access from mostAccessed array
+        const totalAccess = (actualStats.mostAccessed || []).reduce((sum, node) => sum + (node.access_count || 0), 0);
+        accessEl.textContent = this.formatNumber(totalAccess);
       }
     }
   }
@@ -433,24 +443,39 @@ class Dashboard {
     const statsEl = document.getElementById('memoryStats');
     if (!statsEl || !stats) return;
 
+    // Handle the actual API response structure
+    const actualStats = stats.stats || stats;
+    const totalAccess = (actualStats.mostAccessed || []).reduce((sum, node) => sum + (node.access_count || 0), 0);
+    const avgAccess = actualStats.totalNodes > 0 ? (totalAccess / actualStats.totalNodes).toFixed(1) : 0;
+
     statsEl.innerHTML = `
       <div class="stats-grid">
         <div class="stat-item">
-          <div class="stat-value">${this.formatNumber(stats.total_nodes || 0)}</div>
+          <div class="stat-value">${this.formatNumber(actualStats.totalNodes || 0)}</div>
           <div class="stat-label">Total Nodes</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">${this.formatNumber(stats.total_relationships || 0)}</div>
+          <div class="stat-value">${this.formatNumber(actualStats.totalRelationships || 0)}</div>
           <div class="stat-label">Relationships</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">${this.formatNumber(stats.total_access || 0)}</div>
+          <div class="stat-value">${this.formatNumber(totalAccess)}</div>
           <div class="stat-label">Total Access</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">${this.formatNumber(stats.avg_access || 0)}</div>
+          <div class="stat-value">${this.formatNumber(avgAccess)}</div>
           <div class="stat-label">Avg Access</div>
         </div>
+      </div>
+      
+      <div class="node-types-breakdown">
+        <h4>Nodes by Type</h4>
+        ${Object.entries(actualStats.nodesByType || {}).map(([type, count]) => `
+          <div class="type-item">
+            <span class="type-name">${type}</span>
+            <span class="type-count">${count}</span>
+          </div>
+        `).join('')}
       </div>
     `;
   }
@@ -466,28 +491,41 @@ class Dashboard {
 
   displayHealthStatus(health) {
     const gridEl = document.getElementById('serverStatusGrid');
-    if (!gridEl || !health || !health.servers) return;
+    if (!gridEl || !health || !health.services) return;
 
-    gridEl.innerHTML = health.servers.map(server => `
-      <div class="server-card status-${server.status}">
+    // Map service names to ports (based on docker-compose.yml)
+    const portMap = {
+      'security': 8001,
+      'codegen': 8002,
+      'memory': 8003,
+      'intelligence': 8004,
+      'tokens': 8005,
+      'sdlc': 8006,
+      'legacy': 8007,
+      'schema': 8008,
+      'performance': 8009
+    };
+
+    gridEl.innerHTML = health.services.map(service => `
+      <div class="server-card status-${service.status}">
         <div class="server-header">
-          <h4>${this.escapeHtml(server.name)}</h4>
-          <span class="badge badge-${server.status === 'healthy' ? 'success' : 'danger'}">
-            ${server.status}
+          <h4>${this.escapeHtml(service.name)}</h4>
+          <span class="badge badge-${service.status === 'healthy' ? 'success' : 'danger'}">
+            ${service.status}
           </span>
         </div>
         <div class="server-body">
           <div class="server-metric">
             <span>Port:</span>
-            <span>${server.port}</span>
+            <span>${portMap[service.name] || '-'}</span>
           </div>
           <div class="server-metric">
             <span>Response Time:</span>
-            <span>${server.response_time || '-'}ms</span>
+            <span>${service.responseTime || '-'}ms</span>
           </div>
           <div class="server-metric">
             <span>Last Check:</span>
-            <span>${this.formatTimestamp(server.timestamp)}</span>
+            <span>${this.formatTimestamp(service.lastCheck)}</span>
           </div>
         </div>
       </div>

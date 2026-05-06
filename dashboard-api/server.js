@@ -15,7 +15,6 @@ const HallucinationDetector = require('./services/hallucination-detector');
 const MCPMonitor = require('./services/mcp-monitor');
 
 // Import routes
-const modelsRouter = require('./routes/models');
 const tokensRouter = require('./routes/tokens');
 const logsRouter = require('./routes/logs');
 const credentialsRouter = require('./routes/credentials');
@@ -42,6 +41,17 @@ async function initializeServices() {
   hallucinationDetector = new HallucinationDetector(db);
   mcpMonitor = new MCPMonitor(db);
   
+  // Register backend services for monitoring
+  mcpMonitor.registerService('security', { url: 'http://localhost:8001' });
+  mcpMonitor.registerService('codegen', { url: 'http://localhost:8002' });
+  mcpMonitor.registerService('memory', { url: 'http://localhost:8003' });
+  mcpMonitor.registerService('intelligence', { url: 'http://localhost:8004' });
+  mcpMonitor.registerService('tokens', { url: 'http://localhost:8005' });
+  mcpMonitor.registerService('sdlc', { url: 'http://localhost:8006' });
+  mcpMonitor.registerService('legacy', { url: 'http://localhost:8007' });
+  mcpMonitor.registerService('schema', { url: 'http://localhost:8008' });
+  mcpMonitor.registerService('performance', { url: 'http://localhost:8009' });
+  
   // Store services in app for access in routes (after initialization)
   app.locals.db = db;
   app.locals.vault = vault;
@@ -55,9 +65,9 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "ws:", "wss:"]
     }
@@ -73,10 +83,10 @@ app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Rate limiting
+// Rate limiting - increased for development
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 1000, // Limit each IP to 1000 requests per minute
   message: 'Too many requests from this IP, please try again later.'
 });
 
@@ -107,7 +117,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, '../dashboard')));
 
 // API Routes
-app.use('/api/models', modelsRouter);
 app.use('/api/tokens', tokensRouter);
 app.use('/api/logs', logsRouter);
 app.use('/api/credentials', credentialsRouter);

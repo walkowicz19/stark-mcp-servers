@@ -16,8 +16,8 @@
     <!-- Chart.js for token usage graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
-    <!-- D3.js for memory visualization -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Cytoscape.js for memory graph visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/main.css">
@@ -50,10 +50,6 @@
         <button class="nav-item active" data-section="overview">
             <i class="bi bi-bar-chart-fill nav-icon" style="color: var(--accent-blue);"></i>
             <span class="nav-label">Overview</span>
-        </button>
-        <button class="nav-item" data-section="models">
-            <i class="bi bi-cpu-fill nav-icon" style="color: var(--accent-purple);"></i>
-            <span class="nav-label">Models</span>
         </button>
         <button class="nav-item" data-section="tokens">
             <i class="bi bi-coin nav-icon" style="color: var(--accent-gold);"></i>
@@ -208,30 +204,6 @@
             </div>
         </section>
 
-        <!-- Models Section -->
-        <section id="models" class="section">
-            <h2 class="section-title">Model Management</h2>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h3>Active Models</h3>
-                    <button class="btn btn-primary" id="addModelBtn">Add Model</button>
-                </div>
-                <div class="card-body">
-                    <div id="modelsList" class="models-grid"></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Available Models</h3>
-                </div>
-                <div class="card-body">
-                    <div id="availableModelsList" class="models-grid"></div>
-                </div>
-            </div>
-        </section>
-
         <!-- Tokens Section -->
         <section id="tokens" class="section">
             <h2 class="section-title">Token Usage & Cost Tracking</h2>
@@ -262,14 +234,6 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>Usage by Model</h3>
-                </div>
-                <div class="card-body">
-                    <canvas id="modelUsageChart"></canvas>
-                </div>
-            </div>
         </section>
 
         <!-- Logs Section -->

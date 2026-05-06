@@ -13,7 +13,7 @@ A comprehensive suite of 10 specialized MCP servers that extend AI assistants li
 
 ## 🌟 What is Sytra?
 
-Sytra is a suite of **production-ready MCP servers** that transform AI assistants into comprehensive development platforms. Each server provides specialized tools that can be used independently or orchestrated together for complex workflows.
+Sytra is a suite of **specialized MCP servers** that transform AI assistants into comprehensive development platforms. Each server provides specialized tools that can be used independently or orchestrated together for complex workflows.
 
 ### Key Features
 
@@ -440,10 +440,10 @@ Each specialized server provides focused tools for specific domains. See individ
 
 ## 🎼 Pre-defined Workflows
 
-The orchestrator includes production-ready workflows:
+The orchestrator includes pre-defined workflows:
 
 ### 1. Secure Code Generation
-Generate production-ready code with security validation, optimization, tests, and documentation.
+Generate secure code with security validation, optimization, tests, and documentation.
 
 **Duration:** 5-10 minutes | **Steps:** 6
 
@@ -593,10 +593,32 @@ Sytra includes a comprehensive web dashboard for monitoring and managing the MCP
 ### Features
 - **Real-time Monitoring**: System health, token usage, and performance metrics
 - **Security Management**: Configure admin password, view audit logs, manage credentials
-- **Model Configuration**: Manage AI model settings and parameters
-- **Memory Visualization**: Interactive D3.js memory graph
+- **Memory Visualization**: Interactive Cytoscape.js memory graph with node details
 - **Log Viewer**: Real-time log streaming with filtering
+- **Credential Management**: Secure credential storage and management
 - **Bootstrap Icons**: Modern, consistent iconography throughout the UI
+
+### Dashboard Screenshots
+
+#### System Overview
+![Dashboard Overview](images/dashboard-overview.png)
+*Real-time system health monitoring and token usage statistics*
+
+#### Memory Graph Visualization
+![Memory Graph](images/memory-graph.png)
+*Interactive memory graph with clickable nodes showing detailed information*
+
+#### Security Management
+![Security Dashboard](images/security-dashboard.png)
+*Admin password configuration and security audit logs*
+
+#### Credentials Management
+![Credentials](images/credentials-management.png)
+*Secure credential storage with encryption*
+
+#### Log Viewer
+![Logs](images/log-viewer.png)
+*Real-time log streaming with filtering capabilities*
 
 ### Quick Start
 

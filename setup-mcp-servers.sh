@@ -1,6 +1,13 @@
 #!/bin/bash
 # Sytra MCP Servers Setup Script
 # Installs dependencies and builds all MCP servers
+#
+# This script builds:
+# - 11 MCP Servers (TypeScript) - IDE integration layer
+# - 9 Backend Services (Python/Docker) - Core functionality
+# - Dashboard API (Node.js) - Web management interface
+#
+# All components from the complete Sytra MCP repository
 
 set -e
 

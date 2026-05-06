@@ -1,314 +1,98 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 
-// Get overall system health
-router.get('/', (req, res) => {
+// Get overall health status
+router.get('/', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
+    const mcpMonitor = req.app.locals.mcpMonitor;
     const summary = mcpMonitor.getHealthSummary();
-    
-    res.json({
-      success: true,
-      data: summary
-    });
+    res.json({ health: summary });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error fetching health:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Get health status (summary + servers)
-router.get('/status', (req, res) => {
+// Get detailed health status
+router.get('/status', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
+    const mcpMonitor = req.app.locals.mcpMonitor;
+    const db = req.app.locals.db;
+    
     const summary = mcpMonitor.getHealthSummary();
-    const servers = mcpMonitor.getAllStatus();
+    const alerts = mcpMonitor.getAlerts();
     
-    res.json({
-      success: true,
-      summary,
-      servers,
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
+    // Get recent health metrics
+    const metrics = db.getHealthMetrics(null, '1h');
 
-// Get all server statuses
-router.get('/servers', (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const statuses = mcpMonitor.getAllStatus();
-    
-    res.json({
-      success: true,
-      data: statuses,
-      count: statuses.length
+    res.json({ 
+      status: summary.overallStatus,
+      services: summary.services,
+      alerts,
+      metrics
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Get specific server status
-router.get('/servers/:serverId', (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const status = mcpMonitor.getServerStatus(req.params.serverId);
-    
-    if (!status) {
-      return res.status(404).json({
-        success: false,
-        error: 'Server not found'
-      });
-    }
-    
-    res.json({
-      success: true,
-      data: status
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Check specific server health
-router.post('/servers/:serverId/check', async (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.params.serverId;
-    
-    const config = mcpMonitor.servers[serverId];
-    if (!config) {
-      return res.status(404).json({
-        success: false,
-        error: 'Server not found'
-      });
-    }
-    
-    const status = await mcpMonitor.checkServer(serverId, config);
-    
-    res.json({
-      success: true,
-      data: status
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Get performance metrics
-router.get('/metrics', (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.query.server;
-    
-    const metrics = mcpMonitor.getPerformanceMetrics(serverId || null);
-    
-    res.json({
-      success: true,
-      data: metrics
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error fetching health status:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
 // Get health history
-router.get('/history', (req, res) => {
+router.get('/history', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
+    const db = req.app.locals.db;
     const serverId = req.query.server;
     const period = req.query.period || '1h';
     
-    const history = mcpMonitor.getHealthHistory(serverId || null, period);
-    
-    res.json({
-      success: true,
-      data: history,
-      count: history.length,
-      period
-    });
+    const metrics = db.getHealthMetrics(serverId, period);
+    res.json({ metrics, period });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error fetching health history:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Get uptime statistics
-router.get('/uptime', (req, res) => {
+// Get service-specific health
+router.get('/services/:serviceName', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.query.server;
-    const period = req.query.period || '24h';
+    const mcpMonitor = req.app.locals.mcpMonitor;
+    const { serviceName } = req.params;
     
-    if (!serverId) {
-      return res.status(400).json({
-        success: false,
-        error: 'server query parameter is required'
-      });
+    const service = mcpMonitor.getServiceStatus(serviceName);
+    if (!service) {
+      return res.status(404).json({ error: 'Service not found' });
     }
-    
-    const uptime = mcpMonitor.calculateUptime(serverId, period);
-    
-    if (!uptime) {
-      return res.status(404).json({
-        success: false,
-        error: 'No uptime data available'
-      });
-    }
-    
-    res.json({
-      success: true,
-      data: uptime
-    });
+
+    res.json({ service });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error fetching service health:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Get response time trends
-router.get('/trends', (req, res) => {
+// Trigger health check
+router.post('/check', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.query.server;
-    const period = req.query.period || '1h';
-    
-    if (!serverId) {
-      return res.status(400).json({
-        success: false,
-        error: 'server query parameter is required'
-      });
-    }
-    
-    const trends = mcpMonitor.getResponseTimeTrends(serverId, period);
-    
-    res.json({
-      success: true,
-      data: trends,
-      count: trends.length,
-      period
-    });
+    const mcpMonitor = req.app.locals.mcpMonitor;
+    await mcpMonitor.checkAllServices();
+    const summary = mcpMonitor.getHealthSummary();
+    res.json({ success: true, health: summary });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error triggering health check:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Detect anomalies
-router.get('/anomalies', (req, res) => {
+// Clear health alerts
+router.delete('/alerts', async (req, res) => {
   try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.query.server;
-    
-    if (!serverId) {
-      // Get anomalies for all servers
-      const allAnomalies = {};
-      for (const [id] of mcpMonitor.metrics.entries()) {
-        const anomaly = mcpMonitor.detectAnomalies(id);
-        if (anomaly.has_anomaly) {
-          allAnomalies[id] = anomaly;
-        }
-      }
-      
-      return res.json({
-        success: true,
-        data: allAnomalies,
-        count: Object.keys(allAnomalies).length
-      });
-    }
-    
-    const anomaly = mcpMonitor.detectAnomalies(serverId);
-    
-    res.json({
-      success: true,
-      data: anomaly
-    });
+    const mcpMonitor = req.app.locals.mcpMonitor;
+    mcpMonitor.clearAlerts();
+    res.json({ success: true });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    console.error('Error clearing alerts:', error);
+    res.status(500).json({ error: error.message });
   }
-});
-
-// Get alerts
-router.get('/alerts', (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const alerts = mcpMonitor.getAlerts();
-    
-    res.json({
-      success: true,
-      data: alerts,
-      count: alerts.length
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Reset metrics
-router.post('/metrics/reset', (req, res) => {
-  try {
-    const { mcpMonitor } = req.app.locals;
-    const serverId = req.body.server;
-    
-    mcpMonitor.resetMetrics(serverId || null);
-    
-    res.json({
-      success: true,
-      message: serverId ? `Metrics reset for ${serverId}` : 'All metrics reset'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Dashboard API health check
-router.get('/api', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      status: 'healthy',
-      uptime: process.uptime(),
-      memory: process.memoryUsage(),
-      timestamp: new Date().toISOString()
-    }
-  });
 });
 
 module.exports = router;
-
-// Made with Bob
