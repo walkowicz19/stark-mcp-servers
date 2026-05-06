@@ -181,10 +181,26 @@ function showModal(content) {
 
 function closeModal() {
   const overlay = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
   if (overlay) {
     overlay.style.display = 'none';
+    if (content) {
+      content.innerHTML = '';
+    }
   }
 }
+
+// Add click outside modal to close
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeModal();
+      }
+    });
+  }
+});
 
 function togglePasswordVisibility(inputId) {
   const input = document.getElementById(inputId);

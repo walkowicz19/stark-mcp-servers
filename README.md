@@ -601,23 +601,23 @@ Sytra includes a comprehensive web dashboard for monitoring and managing the MCP
 ### Dashboard Screenshots
 
 #### System Overview
-![Dashboard Overview](images/dashboard-overview.png)
+![Dashboard Overview](images/Captura%20de%20Tela%20(596).png)
 *Real-time system health monitoring and token usage statistics*
 
 #### Memory Graph Visualization
-![Memory Graph](images/memory-graph.png)
+![Memory Graph](images/Captura%20de%20Tela%20(597).png)
 *Interactive memory graph with clickable nodes showing detailed information*
 
 #### Security Management
-![Security Dashboard](images/security-dashboard.png)
+![Security Dashboard](images/Captura%20de%20Tela%20(598).png)
 *Admin password configuration and security audit logs*
 
 #### Credentials Management
-![Credentials](images/credentials-management.png)
+![Credentials](images/Captura%20de%20Tela%20(599).png)
 *Secure credential storage with encryption*
 
 #### Log Viewer
-![Logs](images/log-viewer.png)
+![Logs](images/Captura%20de%20Tela%20(600).png)
 *Real-time log streaming with filtering capabilities*
 
 ### Quick Start
