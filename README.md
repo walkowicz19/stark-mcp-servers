@@ -532,20 +532,53 @@ Build a complete REST API for a todo application with tests, docs, and CI/CD set
 
 ```
 sytra-mcp-servers/
-├── mcp-servers/
-│   ├── orchestrator/              # Unified orchestrator server
+├── mcp-servers/                   # MCP Server implementations (TypeScript)
+│   ├── orchestrator/              # Unified orchestrator server (17 tools)
 │   ├── security-guardrails/       # Security scanning and compliance
 │   ├── code-generation/           # Code generation and validation
 │   ├── memory-management/         # Context and memory management
-│   ├── intelligence-amplification/# Advanced AI reasoning
+│   ├── intelligence-amplification/# Advanced AI reasoning & code intelligence
 │   ├── token-optimization/        # Token usage optimization
 │   ├── sdlc-integration/          # SDLC automation
 │   ├── legacy-support/            # Legacy code modernization
+│   ├── schema-intelligence/       # Database schema analysis
 │   ├── performance-optimizer/     # Performance profiling
-│   ├── shared/                    # Shared utilities
-│   ├── INSTALLATION.md            # Installation guide
-│   ├── USAGE_GUIDE.md             # Usage guide
-│   └── TROUBLESHOOTING.md         # Troubleshooting guide
+│   └── shared/                    # Shared utilities
+├── services/                      # Backend Services (Python/FastAPI)
+│   ├── security/                  # Security service (port 8001)
+│   ├── codegen/                   # Code generation service (port 8002)
+│   ├── memory/                    # Memory service (port 8003)
+│   ├── intelligence/              # Intelligence service (port 8004)
+│   ├── tokens/                    # Token optimization service (port 8005)
+│   ├── sdlc/                      # SDLC service (port 8006)
+│   ├── legacy/                    # Legacy support service (port 8007)
+│   ├── schema/                    # Schema intelligence service (port 8008)
+│   ├── performance/               # Performance service (port 8009)
+│   ├── shared/                    # Shared Python utilities
+│   └── docker-compose.yml         # Docker orchestration for all services
+├── dashboard/                     # Web Dashboard (HTML/CSS/JS)
+│   ├── index.html                 # Main dashboard page
+│   ├── css/                       # Stylesheets
+│   └── js/                        # Dashboard JavaScript
+├── dashboard-api/                 # Dashboard Backend (Node.js/Express)
+│   ├── server.js                  # Express server (port 3000)
+│   ├── routes/                    # API routes
+│   ├── services/                  # Business logic
+│   ├── db/                        # SQLite database
+│   └── docker-compose.yml         # Dashboard API Docker config
+├── configs/                       # IDE Configuration files
+│   ├── claude-desktop.json        # Claude Desktop config
+│   ├── cursor.json                # Cursor IDE config
+│   ├── vscode-continue.json       # VSCode Continue config
+│   ├── windsurf.json              # Windsurf IDE config
+│   ├── zed.json                   # Zed Editor config
+│   ├── ibm-bob.json               # IBM Bob config
+│   └── IDE_CONFIGURATIONS.md      # Setup guide for all IDEs
+├── images/                        # Dashboard screenshots
+├── start-all.ps1                  # Windows startup script
+├── start-all.sh                   # Linux/Mac startup script
+├── stop-all.ps1                   # Windows shutdown script
+├── stop-all.sh                    # Linux/Mac shutdown script
 ├── README.md                      # This file
 └── LICENSE                        # MIT License
 ```
